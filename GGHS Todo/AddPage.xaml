@@ -9,6 +9,82 @@
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="TextBox">
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="FontFamily" Value="Malgun Gothic" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
+        </Grid.Resources>
+        <Grid Margin="177,65,0,0" HorizontalAlignment="Left" Width="469" Height="118" VerticalAlignment="Top">
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontFamily" Value="Segoe" />
+                </Style>
+            </Grid.Resources>
+            <TextBlock x:Name="mainText" Text="Add New Task" FontSize="55" Height="73" FontWeight="Bold" SelectionChanged="mainText_SelectionChanged"/>
+            <TextBlock x:Name="mainText2" Text="Codename Bracelet" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0"/>
+        </Grid>
+
+        <Grid Margin="25,232,330,0" Height="80" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32*" />
+                <ColumnDefinition Width="305" />
+                <ColumnDefinition Width="25*" />
+                <ColumnDefinition Width="54*" />
+                <ColumnDefinition Width="23*" />
+                <ColumnDefinition Width="113*" />
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="FontFamily" Value="Segoe" />
+                    <Setter Property="FontSize" Value="25"/>
+                </Style>
+            </Grid.Resources>
+            <TextBlock Text="Due date" />
+            <DatePicker x:Name="DueDatePicker" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Width="300"/>
+            <TextBlock Text="Subject" Grid.Column="2" />
+            <ComboBox x:Name="SubjectPicker" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="25">
+                <x:String>독서</x:String>
+                <x:String>심화영어</x:String>
+            </ComboBox>
+            <TextBlock Text="Title" Grid.Column="4" />
+            <TextBox x:Name="TitleTextBox" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+        </Grid>
+        <TextBlock Text="Memo (optional)" FontFamily="Segoe" FontSize="25" Margin="58,323,0,0" HorizontalAlignment="Left" Width="183" Height="41" VerticalAlignment="Top"/>
+        <TextBox x:Name="BodyTextBox" Margin="50,375,330,30" AcceptsReturn="True"/>
+        <Grid Width="315" HorizontalAlignment="Right" Margin="0,205,10,10">
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="CornerRadius" Value="10" />
+                    <Setter Property="Height" Value="60"/>
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Top" />
+                    <Setter Property="Width" Value="220"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="25"/>
+                    <Setter Property="FontFamily" Value="Segoe" />
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+            </Grid.Resources>
+            <Button x:Name="SaveButton" Margin="0,115,0,0" Click="SaveButton_Click">
+                <TextBlock><Run Text="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Save"/></TextBlock>
+            </Button>
+            <Button x:Name="CancelButton" Margin="0,280,0,0" Click="CancelButton_Click">
+                <TextBlock><Run Text="&#xE711;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Cancel"/></TextBlock>
+            </Button>
+        </Grid>
+
+        <!-- &#xE74D; Delete, &#xE74E; Save &#xE713 Setting &#xE72A(B); Forward/Back-->
+
 
     </Grid>
 </Page>

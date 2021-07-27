@@ -26,5 +26,32 @@ namespace GGHS_Todo
         {
             this.InitializeComponent();
         }
+
+        public AddPage(in Task task)
+        {
+            InitializeComponent();
+            mainText.Text = "Modify Task";
+            DueDatePicker.Date = task.DueDate.Value;
+            SubjectPicker.SelectedItem = task.Subject;
+            TitleTextBox.Text = task.Title;
+            BodyTextBox.Text = task.Body;
+        }
+
+        private void mainText_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            Task task = new(DueDatePicker.Date.DateTime, SubjectPicker.SelectedItem as string, TitleTextBox.Text, BodyTextBox.Text);
+            MainPage.TaskList.Add(task);
+            Close();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e) => Close();
+        
+
+        private void Close() => Frame.Navigate(typeof(MainPage));
     }
 }

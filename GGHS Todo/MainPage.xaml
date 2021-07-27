@@ -32,24 +32,80 @@
             <TextBlock x:Name="mainText" Text="Codename Bracelet" FontSize="55" Height="73" FontWeight="Bold"/>
             <TextBlock x:Name="mainText2" Text="Development is underway" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0"/>
         </Grid>
-        <Grid Margin="10,205,1595,10">
-            <Button Margin="0,115,0,0" VerticalAlignment="Top" Height="60" Width="206" HorizontalAlignment="Center" CornerRadius="10"/>
+        <Grid Margin="10,205,0,10" HorizontalAlignment="Left" Width="315">
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="CornerRadius" Value="10" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="Height" Value="60"/>
+                    <Setter Property="Width" Value="220"/>
+                    <Setter Property="VerticalAlignment" Value="Top" />
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="25"/>
+                    <Setter Property="FontFamily" Value="Segoe" />
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+            </Grid.Resources>
+            <Button x:Name="AddButton" Margin="0,115,0,0" Click="AddButton_Click">
+                <TextBlock><Run Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Add New"/></TextBlock>
+            </Button>
+            <TextBlock Margin="0,178,0,660" FontSize="18" Text="Add new task" Foreground="#ff555555"/>
+            <Button x:Name="RemoveButton" Margin="0,280,0,0" Click="RemoveButton_Click">
+                <TextBlock><Run Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Remove Old"/></TextBlock>
+            </Button>
+            <TextBlock Margin="0,343,0,495" FontSize="18" Text="Remove all that expired" Foreground="#ff555555"/>
+
+            <!-- &#xE74D; Delete, &#xE74E; Save &#xE713 Setting &#xE72A(B); Forward/Back-->
         </Grid>
 
         <ScrollViewer Margin="325,205,10,10">
-            <Grid>
+            <Grid x:Name="TaskGrid">
                 <Grid.Resources>
                     <Style TargetType="Button">
                         <Setter Property="CornerRadius" Value="10"/>
                         <Setter Property="VerticalAlignment" Value="Top" />
                     </Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="HorizontalAlignment" Value="Left" />
+                    </Style>
                 </Grid.Resources>
-                <Button>
-                    <Grid Height="80" VerticalAlignment="Center" HorizontalAlignment="Left" Width="2000" Margin="-12,0,0,0" >
-                        <TextBlock FontSize="17" Text="화학Ⅱ" Margin="80,12,0,44" HorizontalAlignment="Left" Width="2000"/>
-                        <TextBlock FontSize="15" Text="반응 엔탈피 수행평가" Margin="80,43,0,13" HorizontalAlignment="Left" Width="2000" Foreground="#ffa4a4a4"/>
+
+
+
+                <!--Button Click="TaskButton_Click">
+                    <Grid Height="80" Width="2560" Margin="-12,0,0,0" >
+                        <Grid Width="65" Margin="10,0,0,0" HorizontalAlignment="Left">
+                            <TextBlock FontSize="19" Text="07/29" Margin="0,10,0,46" HorizontalAlignment="Center" FontFamily="Segoe" FontWeight="Bold"/>
+                            <TextBlock FontSize="15" Text="D-29" Margin="0,44,0,12" HorizontalAlignment="Center" FontFamily="Consolas" FontWeight="Bold"/>
+                        </Grid>
+                        <TextBlock FontSize="17" Text="독서" Margin="80,12,0,44" Width="2560"/>
+                        <TextBlock FontSize="15" Text="매 시간이 수행평가" Margin="80,43,0,13" HorizontalAlignment="Left" Width="2560" Foreground="#ffa4a4a4"/>
                     </Grid>
                 </Button>
+                <Button Click="TaskButton_Click" HorizontalAlignment="Center" Margin="0,98,0,0">
+                    <Grid Height="80" Width="2560" Margin="-12,0,0,0" >
+                        <Grid Width="65" Margin="10,0,0,0" HorizontalAlignment="Left">
+                            <TextBlock FontSize="19" Text="07/29" Margin="0,10,0,46" HorizontalAlignment="Center" FontFamily="Segoe" FontWeight="Bold"/>
+                            <TextBlock FontSize="15" Text="D-29" Margin="0,44,0,12" HorizontalAlignment="Center" FontFamily="Consolas" FontWeight="Bold"/>
+                        </Grid>
+                        <TextBlock FontSize="17" Text="독서" Margin="80,12,0,44" Width="2560"/>
+                        <TextBlock FontSize="15" Text="매 시간이 수행평가" Margin="80,43,0,13" HorizontalAlignment="Left" Width="2560" Foreground="#ffa4a4a4"/>
+                    </Grid>
+                </Button>
+                <Button Click="TaskButton_Click" HorizontalAlignment="Center" Margin="0,196,0,0">
+                    <Grid Height="80" Width="2560" Margin="-12,0,0,0" >
+                        <Grid Width="65" Margin="10,0,0,0" HorizontalAlignment="Left">
+                            <TextBlock FontSize="19" Text="07/29" Margin="0,10,0,46" HorizontalAlignment="Center" FontFamily="Segoe" FontWeight="Bold"/>
+                            <TextBlock FontSize="15" Text="D-29" Margin="0,44,0,12" HorizontalAlignment="Center" FontFamily="Consolas" FontWeight="Bold"/>
+                        </Grid>
+                        <TextBlock FontSize="17" Text="독서" Margin="80,12,0,44" Width="2560"/>
+                        <TextBlock FontSize="15" Text="매 시간이 수행평가" Margin="80,43,0,13" HorizontalAlignment="Left" Width="2560" Foreground="#ffa4a4a4"/>
+                    </Grid>
+                </Button-->
+
+
+
             </Grid>
         </ScrollViewer>
 
