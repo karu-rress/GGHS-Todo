@@ -23,12 +23,11 @@
                     <Setter Property="TextWrapping" Value="Wrap"/>
                     <Setter Property="VerticalAlignment" Value="Top"/>
                     <Setter Property="HorizontalAlignment" Value="Left"/>
-                    <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="FontFamily" Value="Segoe" />
                 </Style>
             </Grid.Resources>
-            <TextBlock x:Name="mainText" Text="Add New Task" FontSize="55" Height="73" FontWeight="Bold" SelectionChanged="mainText_SelectionChanged"/>
-            <TextBlock x:Name="mainText2" Text="Codename Bracelet" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0"/>
+            <TextBlock x:Name="mainText" Text="Add New Task" FontSize="55" Height="73" FontWeight="Bold"/>
+            <TextBlock x:Name="mainText2" Text="GGHS Todo Preview" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0"/>
         </Grid>
 
         <Grid Margin="25,232,330,0" Height="80" VerticalAlignment="Top">
@@ -49,17 +48,14 @@
                 </Style>
             </Grid.Resources>
             <TextBlock Text="Due date" />
-            <DatePicker x:Name="DueDatePicker" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Width="300"/>
+            <DatePicker x:Name="DueDatePicker" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Width="300" />
             <TextBlock Text="Subject" Grid.Column="2" />
-            <ComboBox x:Name="SubjectPicker" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="25">
-                <x:String>독서</x:String>
-                <x:String>심화영어</x:String>
-            </ComboBox>
+            <ComboBox x:Name="SubjectPicker" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="21" ItemsSource="{x:Bind Grade2}" Height="45"/>
             <TextBlock Text="Title" Grid.Column="4" />
-            <TextBox x:Name="TitleTextBox" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+            <TextBox x:Name="TitleTextBox" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="45" FontSize="23" />
         </Grid>
         <TextBlock Text="Memo (optional)" FontFamily="Segoe" FontSize="25" Margin="58,323,0,0" HorizontalAlignment="Left" Width="183" Height="41" VerticalAlignment="Top"/>
-        <TextBox x:Name="BodyTextBox" Margin="50,375,330,30" AcceptsReturn="True"/>
+        <TextBox x:Name="BodyTextBox" Margin="50,375,330,30" AcceptsReturn="True" FontSize="23"/>
         <Grid Width="315" HorizontalAlignment="Right" Margin="0,205,10,10">
             <Grid.Resources>
                 <Style TargetType="Button">
@@ -80,6 +76,9 @@
             </Button>
             <Button x:Name="CancelButton" Margin="0,280,0,0" Click="CancelButton_Click">
                 <TextBlock><Run Text="&#xE711;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Cancel"/></TextBlock>
+            </Button>
+            <Button x:Name="DeleteButton" Margin="0,445,0,0" Click="DeleteButton_Click" Visibility="Collapsed">
+                <TextBlock><Run Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Delete"/></TextBlock>
             </Button>
         </Grid>
 

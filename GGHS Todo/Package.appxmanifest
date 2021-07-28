@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="fb5e614e-7000-4e0e-87d8-8d3f5c73f92e"
-    Publisher="CN=nsun5"
-    Version="1.0.0.0" />
+    Name="43869RollingRess.GGHSTodo"
+    Publisher="CN=A20999E7-9369-49AA-B89C-1CC2A7AAB5EA"
+    Version="0.6.6.0" />
 
-  <mp:PhoneIdentity PhoneProductId="fb5e614e-7000-4e0e-87d8-8d3f5c73f92e" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="d81647af-8f32-4029-a1da-0199c5075b3f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>GGHS Todo</DisplayName>
-    <PublisherDisplayName>nsun5</PublisherDisplayName>
+    <PublisherDisplayName>Rolling Ress</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -37,7 +37,7 @@
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="GGHS Todo"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>

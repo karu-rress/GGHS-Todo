@@ -30,6 +30,7 @@ namespace GGHS_Todo
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            UnhandledException += ExceptionHandler.HandleException;
         }
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace GGHS_Todo
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -50,9 +51,12 @@ namespace GGHS_Todo
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
+                await SaveTask.Load();
+
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application
+
                 }
 
                 // Place the frame in the current Window
@@ -68,6 +72,7 @@ namespace GGHS_Todo
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
@@ -94,6 +99,7 @@ namespace GGHS_Todo
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
+            SaveTask.Save();
             deferral.Complete();
         }
     }
