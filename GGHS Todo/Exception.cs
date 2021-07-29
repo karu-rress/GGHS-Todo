@@ -30,7 +30,7 @@ namespace GGHS_Todo
             {
                 await smtp.SendAsync(msg);
             }
-            finally
+            catch
             {
                 MessageDialog messageDialog = new(errorMsg, "An error has occured.");
                 await messageDialog.ShowAsync();

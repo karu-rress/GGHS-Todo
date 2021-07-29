@@ -20,6 +20,22 @@ using Windows.UI;
 
 namespace GGHS_Todo
 {
+    /*
+     <Button Click="TaskButton_Click" CornerRadius="10">
+                    <Grid>
+                        <Grid Height="80" Width="2560" Margin="-12,0,0,0" >
+                            <Grid Width="65" Margin="10,0,0,0" HorizontalAlignment="Left">
+                                <TextBlock FontSize="19" Text="07/29" Margin="0,10,0,46" HorizontalAlignment="Center" FontFamily="Segoe" FontWeight="Bold"/>
+                                <TextBlock FontSize="15" Text="D-29" Margin="0,44,0,12" HorizontalAlignment="Center" FontFamily="Consolas" FontWeight="Bold"/>
+                            </Grid>
+                            <TextBlock FontSize="17" Text="독서" Margin="80,12,0,44" Width="2560"/>
+                            <TextBlock FontSize="15" Text="매 시간이 수행평가" Margin="80,43,0,13" HorizontalAlignment="Left" Width="2560" Foreground="#ffa4a4a4"/>
+                        </Grid>
+                        <TextBlock Text="&#xE76C;" FontFamily="Segoe MDL2 Assets" Width="17" VerticalAlignment="Center"  FontSize="17" Foreground="#ff727272" Margin="0,0,10,0" HorizontalAlignment="Right"/>
+                    </Grid>
+                </Button>
+     
+     */
     public class TaskButton : Button
     {
         private const int buttonWidth = 2560;
@@ -36,7 +52,7 @@ namespace GGHS_Todo
             VerticalAlignment = VerticalAlignment.Top;
             CornerRadius = new(10);
 
-            CreateGrid(out Grid inner, out Grid dday);
+            CreateGrid(out Grid inner, out Grid dday, out Grid outter);
             CreateDdayTextBlock(out TextBlock tb1, out TextBlock tb2);
             dday.Children.Add(tb1);
             dday.Children.Add(tb2);
@@ -46,10 +62,28 @@ namespace GGHS_Todo
             inner.Children.Add(tb3);
             inner.Children.Add(tb4);
 
-            Content = inner;
+            CreateArrowTextBlock(out TextBlock arrow);
+            outter.Children.Add(inner);
+            outter.Children.Add(arrow);
+
+            Content = outter;
         }
 
-        private void CreateGrid(out Grid inner, out Grid dday)
+        private void CreateArrowTextBlock(out TextBlock arrow)
+        {
+            arrow = new()
+            {
+                Text = "\xE76C",
+                FontFamily = new("Segoe MDL2 Assets"),
+                FontSize = 17,
+                Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x72, 0x72, 0x72)),
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Margin = new(0, 0, 10, 0)
+            };
+        }
+
+        private void CreateGrid(out Grid inner, out Grid dday, out Grid outter)
         {
             inner = new()
             {
@@ -64,6 +98,7 @@ namespace GGHS_Todo
                 Margin = new(10, 0, 0, 0),
                 HorizontalAlignment = HorizontalAlignment.Left
             };
+            outter = new();
         }
 
         private void CreateDdayTextBlock(out TextBlock tb1, out TextBlock tb2)
@@ -82,7 +117,26 @@ namespace GGHS_Todo
             string? text = null;
             if (Task.DueDate is not null)
             {
-                text = "D" + (DateTime.Now < Task.DueDate.Value ? "" : "+") + (DateTime.Now - Task.DueDate.Value).Days;
+                // D0 & D-Day 문제점 수정
+                //
+                // TimeSpan.Day에서 +1
+                // if문 하나 추가해서 D is 0일때 D-Day로
+                // 아니면 Three-way comparsion switch expr로
+                // -1, 0, +1일때 각각 표시
+                // 
+                int days = (DateTime.Now - Task.DueDate.Value).Days;
+                days = days switch
+                {
+                    < 0 => days - 1,
+                    _ => days,
+                };
+
+
+                text = "D" + days switch
+                {
+                    0 => "-Day",
+                    _ => days.ToString("+0;-0"),
+                };
             }
 
             tb2 = new()
