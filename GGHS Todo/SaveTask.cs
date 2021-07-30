@@ -16,8 +16,7 @@ namespace GGHS_Todo
         private const string endLineToken = "@#&^*$@*#";
         public static async void Save()
         {
-            if (MainPage.TaskList.Count is 0)
-                return;
+
 
             var saveFile = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
             using var stream = await saveFile.OpenAsync(FileAccessMode.ReadWrite);

@@ -123,7 +123,8 @@ namespace GGHS_Todo
                 return;
             }
 
-            Task task = new(DueDatePicker.Date.DateTime, SubjectPicker.SelectedItem as string, TitleTextBox.Text, 
+            var date = DueDatePicker.Date.DateTime;
+            Task task = new(new DateTime(date.Year, date.Month, date.Day), SubjectPicker.SelectedItem as string, TitleTextBox.Text, 
                 string.IsNullOrWhiteSpace(BodyTextBox.Text) ? null : BodyTextBox.IsNullOrWhiteSpace() ? null : BodyTextBox.Text);
 
             if (Task is not null)
@@ -158,17 +159,24 @@ namespace GGHS_Todo
                 return;
             }
 
+            await DeleteTask(TitleTextBox.Text, Task);
+            Close();
+        }
+
+        public static async System.Threading.Tasks.Task DeleteTask(string taskName, Task task)
+        {
             ContentDialog contentDialog = new()
             {
                 Title = "Delete",
-                Content = $"Are you sure want to delete '{TitleTextBox.Text}'?",
+                Content = $"Are you sure want to delete '{taskName}'?",
                 PrimaryButtonText = "Yes",
+                DefaultButton = ContentDialogButton.Primary,
                 CloseButtonText = "No"
             };
             if (await contentDialog.ShowAsync() is not ContentDialogResult.Primary)
                 return;
 
-            MainPage.TaskList.Remove(Task);
+            MainPage.TaskList.Remove(task);
             contentDialog = new()
             {
                 Title = "Removal Successful",
@@ -176,7 +184,6 @@ namespace GGHS_Todo
                 CloseButtonText = "OK",
             };
             await contentDialog.ShowAsync();
-            Close();
         }
 
         private bool Modified()

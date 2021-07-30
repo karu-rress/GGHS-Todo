@@ -24,7 +24,7 @@
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
@@ -132,6 +132,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContentMessageDialog.cs" />
+    <Compile Include="DateSelectDialog.xaml.cs">
+      <DependentUpon>DateSelectDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Exception.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -140,6 +144,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveTask.cs" />
     <Compile Include="Subjects.cs" />
+    <Compile Include="SubjectSelectDialog.xaml.cs">
+      <DependentUpon>SubjectSelectDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TaskButton.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +219,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="DateSelectDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SubjectSelectDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

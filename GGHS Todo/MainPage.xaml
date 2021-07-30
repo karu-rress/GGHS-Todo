@@ -18,7 +18,7 @@
                     <Setter Property="FontFamily" Value="Assets/ZegoeLight-U.ttf#Segoe" />
                 </Style>
             </Grid.Resources>
-            <TextBlock x:Name="mainText" Text="GGHS Todo Preview 2" FontSize="55" Height="73" FontWeight="Bold" Width="529"/>
+            <TextBlock x:Name="mainText" Text="GGHS Todo Preview 3" FontSize="55" Height="73" FontWeight="Bold" Width="529"/>
             <TextBlock x:Name="mainText2" Text="Don't forget any of your tasks" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0"/>
         </Grid>
         <Grid Margin="10,205,0,10" HorizontalAlignment="Left" Width="315">
@@ -39,15 +39,25 @@
             <Button x:Name="AddButton" Margin="0,115,0,0" Click="AddButton_Click">
                 <TextBlock><Run Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Add New"/></TextBlock>
             </Button>
-            <TextBlock Margin="0,200,0,638" FontSize="18" Text="Add new task" Foreground="#ff555555"/>
-            <Button x:Name="RemoveButton" Margin="0,280,0,0" Click="RemoveButton_Click">
-                <TextBlock><Run Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Remove Old"/></TextBlock>
+            <Button x:Name="RemoveButton" Margin="0,280,0,0">
+                <TextBlock><Run Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Delete..."/></TextBlock>
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Delete past tasks" Click="RemoveButton_Click"/>
+                        <MenuFlyoutItem Text="Delete all" Click="RemoveAllButton_Click"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutSubItem Text="Advanced">
+                            <MenuFlyoutItem Text="Select date" Click="SelectDate_Click"/>
+                            <!--MenuFlyoutItem Text="Select subject" Click="SelectSubject_Click"/-->
+                        </MenuFlyoutSubItem>
+                    </MenuFlyout>
+                </Button.Flyout>
             </Button>
-            <TextBlock Margin="0,367,0,471" FontSize="18" Text="Remove all that expired" Foreground="#ff555555"/>
         </Grid>
         <ScrollViewer Margin="325,205,45,10">
             <Grid x:Name="TaskGrid"/>
         </ScrollViewer>
+        <TextBlock Margin="0,181,525,872" FontSize="18" Text="Right-click a task to delete it" Foreground="#ff555555" HorizontalAlignment="Right" Width="246"/>
     </Grid>
 </Page>
 

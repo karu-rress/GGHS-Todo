@@ -43,14 +43,19 @@ namespace GGHS_Todo
 
         public Task Task { get; private set; }
 
+        RoutedEventHandler buttonClick;
+
         public TaskButton(in Task task, RoutedEventHandler TaskButton_Click, int buttons)
         {
+            buttonClick = TaskButton_Click;
+
             Task = task;
             Click += TaskButton_Click;
             Height = buttonHeight;
             Margin = new(0, 98 * buttons, 0, 0);
             VerticalAlignment = VerticalAlignment.Top;
             CornerRadius = new(10);
+            RightTapped += TaskButton_RightTapped;
 
             CreateGrid(out Grid inner, out Grid dday, out Grid outter);
             CreateDdayTextBlock(out TextBlock tb1, out TextBlock tb2);
@@ -67,6 +72,53 @@ namespace GGHS_Todo
             outter.Children.Add(arrow);
 
             Content = outter;
+        }
+
+        private void TaskButton_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            if (sender is UIElement uiElem)
+            {
+                MenuFlyout btnFlyOut = new();
+                MenuFlyoutItem edit = new()
+                {
+                    Text = "Edit",
+                    Icon = new SymbolIcon(Symbol.Edit),
+                };
+                edit.Click += (_, e) => {
+                    AddPage.Task = Task;
+                    if (Window.Current.Content is Frame rootFrame)
+                    {
+                        rootFrame.Navigate(typeof(AddPage));
+                    }
+                };
+
+                MenuFlyoutItem delete = new()
+                {
+                    Text = "Delete",
+                    Icon = new SymbolIcon(Symbol.Delete)
+                };
+                delete.Click += async (_, e) =>
+                {
+                    await AddPage.DeleteTask(Task.Title, Task);
+                    await System.Threading.Tasks.Task.Delay(100);
+                    if (Window.Current.Content is Frame rootFrame)
+                    {
+                        // TODO: 이걸 그냥 MainPage의 Reload Task..?
+                        rootFrame.Navigate(typeof(MainPage));
+                    }
+                };
+
+                btnFlyOut.Items.Add(edit);
+                btnFlyOut.Items.Add(delete);
+
+                //if you only want to show in left or buttom 
+                //myFlyout.Placement = FlyoutPlacementMode.Left;
+
+                // FrameworkElement senderElement = sender as FrameworkElement;
+
+                //the code can show the flyout in your mouse click 
+                btnFlyOut.ShowAt(uiElem, e.GetPosition(uiElem));
+            }
         }
 
         private void CreateArrowTextBlock(out TextBlock arrow)
@@ -117,20 +169,12 @@ namespace GGHS_Todo
             string? text = null;
             if (Task.DueDate is not null)
             {
-                // D0 & D-Day 문제점 수정
-                //
-                // TimeSpan.Day에서 +1
-                // if문 하나 추가해서 D is 0일때 D-Day로
-                // 아니면 Three-way comparsion switch expr로
-                // -1, 0, +1일때 각각 표시
-                // 
                 int days = (DateTime.Now - Task.DueDate.Value).Days;
                 days = days switch
                 {
                     < 0 => days - 1,
                     _ => days,
                 };
-
 
                 text = "D" + days switch
                 {

@@ -32,6 +32,13 @@ namespace GGHS_Todo
 {
     public record Task(DateTime? DueDate, string Subject, string Title, string? Body);
 
+    public enum Grades
+    {
+        Grade1,
+        Grade2,
+        Grade3,
+    }
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -41,6 +48,9 @@ namespace GGHS_Todo
 
         private static readonly PackageVersion version = Package.Current.Id.Version;
         public static string Version => $"{version.Major}.{version.Minor}.{version.Build}";
+
+        public Grades Grade;
+
         public MainPage()
         {
             InitializeComponent();
@@ -82,51 +92,66 @@ namespace GGHS_Todo
 
         private void AddButton_Click(object _, RoutedEventArgs e) => Frame.Navigate(typeof(AddPage));
 
-        private async void RemoveButton_Click(object sender, RoutedEventArgs e)
+        private async System.Threading.Tasks.Task DeleteTasksByExpression(Predicate<Task>? match)
         {
             if (TaskList is null || TaskList.Count is 0)
             {
-                await NothingToRemove(); 
+                await NothingToDelete();
                 return;
             }
 
-            int cnt = TaskList.FindAll(x => x.DueDate < DateTime.Now).Count;
+            int cnt =
+                (match is null) ? TaskList.Count
+                : TaskList.FindAll(match).Count;
+
             if (cnt is 0)
             {
-                await NothingToRemove();
+                await NothingToDelete();
                 return;
             }
 
+            const string title = "Delete Past";
             ContentDialog contentDialog = new()
             {
                 Content = $"Are you sure want to delete {cnt} {((cnt == 1) ? "item" : "items")}?",
-                Title = "Remove Old",
+                Title = title,
                 CloseButtonText = "Cancel",
-                PrimaryButtonText = "Yes, delete"
+                PrimaryButtonText = "Yes, delete",
+                DefaultButton = ContentDialogButton.Primary
             };
             if (await contentDialog.ShowAsync() is ContentDialogResult.None)
                 return;
 
-            TaskList.RemoveAll(x => x.DueDate < DateTime.Now);
+            if (match is null)
+                TaskList.Clear();
+            else
+                TaskList.RemoveAll(match);
+
             ReloadTasks();
             contentDialog = new()
             {
-                Content = $"Successfully removed {cnt} {(cnt == 1 ? "item" : "items")}.",
-                Title = "Removal successful",
+                Content = $"Successfully deleted {cnt} {(cnt == 1 ? "task" : "task")}.",
+                Title = title,
                 CloseButtonText = "Close",
             };
             await contentDialog.ShowAsync();
 
-            static async System.Threading.Tasks.Task NothingToRemove()
+            static async System.Threading.Tasks.Task NothingToDelete()
             {
                 ContentDialog content = new()
                 {
-                    Content = "Nothing to remove.",
-                    Title = "Remove Old",
+                    Content = "Nothing to delete.",
+                    Title = "Delete",
                     CloseButtonText = "OK",
                 };
                 await content.ShowAsync();
             }
+        }
+
+
+        private async void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            await DeleteTasksByExpression(x => x.DueDate < DateTime.Now);
         }
 
         private void TaskButton_Click(object sender, RoutedEventArgs e)
@@ -137,10 +162,30 @@ namespace GGHS_Todo
                 Frame.Navigate(typeof(AddPage));
             }
         }
+
+        private async void RemoveAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            await DeleteTasksByExpression(null);
+        }
+
+        private async void SelectDate_Click(object sender, RoutedEventArgs e)
+        {
+            DateSelectDialog dialog = new();
+            await dialog.ShowAsync();
+
+            var date = dialog.SelectedDate;
+            await DeleteTasksByExpression(x => x.DueDate.Value == date);
+        }
+
+        private async void SelectSubject_Click(object sender, RoutedEventArgs e)
+        {
+            SubjectSelectDialog dialog = new();
+            await dialog.ShowAsync();
+        }
     }
 }
 
-// 
+//  TODO 함수 이름 재정리. 최적화
 
 /*
 Button b = new() { Height = ButtonHeight, Margin = new(0, 98 * buttons, 0, 0) };
