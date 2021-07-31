@@ -1,40 +1,30 @@
 ﻿#nullable enable
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Text;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Windows.UI;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace GGHS_Todo
 {
     /*
-     <Button Click="TaskButton_Click" CornerRadius="10">
-                    <Grid>
-                        <Grid Height="80" Width="2560" Margin="-12,0,0,0" >
-                            <Grid Width="65" Margin="10,0,0,0" HorizontalAlignment="Left">
-                                <TextBlock FontSize="19" Text="07/29" Margin="0,10,0,46" HorizontalAlignment="Center" FontFamily="Segoe" FontWeight="Bold"/>
-                                <TextBlock FontSize="15" Text="D-29" Margin="0,44,0,12" HorizontalAlignment="Center" FontFamily="Consolas" FontWeight="Bold"/>
-                            </Grid>
-                            <TextBlock FontSize="17" Text="독서" Margin="80,12,0,44" Width="2560"/>
-                            <TextBlock FontSize="15" Text="매 시간이 수행평가" Margin="80,43,0,13" HorizontalAlignment="Left" Width="2560" Foreground="#ffa4a4a4"/>
-                        </Grid>
-                        <TextBlock Text="&#xE76C;" FontFamily="Segoe MDL2 Assets" Width="17" VerticalAlignment="Center"  FontSize="17" Foreground="#ff727272" Margin="0,0,10,0" HorizontalAlignment="Right"/>
-                    </Grid>
-                </Button>
-     
+<Button Click="TaskButton_Click" CornerRadius="10">
+    <Grid>
+        <Grid Height="80" Width="2560" Margin="-12,0,0,0" >
+            <Grid Width="65" Margin="10,0,0,0" HorizontalAlignment="Left">
+                <TextBlock FontSize="19" Text="07/29" Margin="0,10,0,46" HorizontalAlignment="Center" FontFamily="Segoe" FontWeight="Bold"/>
+                <TextBlock FontSize="15" Text="D-29" Margin="0,44,0,12" HorizontalAlignment="Center" FontFamily="Consolas" FontWeight="Bold"/>
+            </Grid>
+            <TextBlock FontSize="17" Text="독서" Margin="80,12,0,44" Width="2560"/>
+            <TextBlock FontSize="15" Text="매 시간이 수행평가" Margin="80,43,0,13" HorizontalAlignment="Left" Width="2560" Foreground="#ffa4a4a4"/>
+        </Grid>
+        <TextBlock Text="&#xE76C;" FontFamily="Segoe MDL2 Assets" Width="17" VerticalAlignment="Center"  FontSize="17" Foreground="#ff727272" Margin="0,0,10,0" HorizontalAlignment="Right"/>
+    </Grid>
+</Button>
      */
     public class TaskButton : Button
     {
@@ -43,12 +33,8 @@ namespace GGHS_Todo
 
         public Task Task { get; private set; }
 
-        RoutedEventHandler buttonClick;
-
         public TaskButton(in Task task, RoutedEventHandler TaskButton_Click, int buttons)
         {
-            buttonClick = TaskButton_Click;
-
             Task = task;
             Click += TaskButton_Click;
             Height = buttonHeight;
@@ -87,11 +73,8 @@ namespace GGHS_Todo
                 edit.Click += (_, e) => {
                     AddPage.Task = Task;
                     if (Window.Current.Content is Frame rootFrame)
-                    {
                         rootFrame.Navigate(typeof(AddPage));
-                    }
                 };
-
                 MenuFlyoutItem delete = new()
                 {
                     Text = "Delete",
@@ -107,15 +90,12 @@ namespace GGHS_Todo
                         rootFrame.Navigate(typeof(MainPage));
                     }
                 };
-
+                
                 btnFlyOut.Items.Add(edit);
                 btnFlyOut.Items.Add(delete);
-
-                //if you only want to show in left or buttom 
-                //myFlyout.Placement = FlyoutPlacementMode.Left;
+                btnFlyOut.Placement = FlyoutPlacementMode.Bottom;
 
                 // FrameworkElement senderElement = sender as FrameworkElement;
-
                 //the code can show the flyout in your mouse click 
                 btnFlyOut.ShowAt(uiElem, e.GetPosition(uiElem));
             }

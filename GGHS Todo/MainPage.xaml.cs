@@ -3,22 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
-using Windows.UI.Text;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Windows.UI;
 using Windows.ApplicationModel;
-using Windows.UI.Popups;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 // Enables using record types as tuple-like types.
@@ -37,6 +24,7 @@ namespace GGHS_Todo
         Grade1,
         Grade2,
         Grade3,
+        None,
     }
 
     /// <summary>
@@ -49,7 +37,7 @@ namespace GGHS_Todo
         private static readonly PackageVersion version = Package.Current.Id.Version;
         public static string Version => $"{version.Major}.{version.Minor}.{version.Build}";
 
-        public Grades Grade;
+        public static Grades Grade { get; set; } = Grades.None;
 
         public MainPage()
         {
@@ -57,25 +45,13 @@ namespace GGHS_Todo
             LoadTasks();
         }
 
-        /*
-<Button Click="TaskButton_Click">
-    <Grid Height="80" Width="2560" Margin="-12,0,0,0" >
-        <Grid>
-            <TextBlock>
-            <TextBlock>
-        </Grid>
-        <TextBlock FontSize="17" Text="독서" Margin="80,12,0,44" Width="2560"/>
-        <TextBlock FontSize="15" Text="매 시간이 수행평가" Margin="80,43,0,13" HorizontalAlignment="Left" Width="2560" Foreground="#ffa4a4a4"/>
-    </Grid>
-</Button>   
-         */
-
+        /// <summary>
+        /// Adds task buttons to the grid.
+        /// </summary>
         private void LoadTasks()
         {
-            if (TaskList?.Any() is false)
-            {
+            if (TaskList.IsNullOrEmpty())
                 return;
-            }
 
             int buttons = 0;
             foreach (var task in TaskList)
@@ -92,28 +68,25 @@ namespace GGHS_Todo
 
         private void AddButton_Click(object _, RoutedEventArgs e) => Frame.Navigate(typeof(AddPage));
 
-        private async System.Threading.Tasks.Task DeleteTasksByExpression(Predicate<Task>? match)
+        private async System.Threading.Tasks.Task DeleteTasks(Predicate<Task>? match)
         {
-            if (TaskList is null || TaskList.Count is 0)
+            if (TaskList.IsNullOrEmpty())
             {
                 await NothingToDelete();
                 return;
             }
 
-            int cnt =
-                (match is null) ? TaskList.Count
-                : TaskList.FindAll(match).Count;
-
+            int cnt = (match is null) ? TaskList.Count : TaskList.FindAll(match).Count;
             if (cnt is 0)
             {
                 await NothingToDelete();
                 return;
             }
 
-            const string title = "Delete Past";
+            const string title = "Delete";
             ContentDialog contentDialog = new()
             {
-                Content = $"Are you sure want to delete {cnt} {((cnt == 1) ? "item" : "items")}?",
+                Content = $"Are you sure want to delete {cnt} {"task".putS(cnt)}?",
                 Title = title,
                 CloseButtonText = "Cancel",
                 PrimaryButtonText = "Yes, delete",
@@ -128,30 +101,38 @@ namespace GGHS_Todo
                 TaskList.RemoveAll(match);
 
             ReloadTasks();
-            contentDialog = new()
-            {
-                Content = $"Successfully deleted {cnt} {(cnt == 1 ? "task" : "task")}.",
-                Title = title,
-                CloseButtonText = "Close",
-            };
+            contentDialog = new ContentMessageDialog($"Successfully deleted {cnt} {"task".putS(cnt)}.", title, "Close");
             await contentDialog.ShowAsync();
 
             static async System.Threading.Tasks.Task NothingToDelete()
             {
-                ContentDialog content = new()
-                {
-                    Content = "Nothing to delete.",
-                    Title = "Delete",
-                    CloseButtonText = "OK",
-                };
-                await content.ShowAsync();
+                ContentMessageDialog message = new("Nothing to delete.", "Delete");
+                await message.ShowAsync();
             }
         }
 
+        private async void DeletePastButton_Click(object _, RoutedEventArgs e)
+            => await DeleteTasks(x => x.DueDate < DateTime.Now);
 
-        private async void RemoveButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteAllButton_Click(object _, RoutedEventArgs e) => await DeleteTasks(null);
+
+        private async void SelectDate_Click(object _, RoutedEventArgs e)
         {
-            await DeleteTasksByExpression(x => x.DueDate < DateTime.Now);
+            DateSelectDialog dialog = new();
+            if (await dialog.ShowAsync() is ContentDialogResult.None)
+                return;
+
+            var date = dialog.SelectedDate;
+            await DeleteTasks(x => x.DueDate is not null && x.DueDate.Value == date);
+        }
+
+        private async void SelectSubject_Click(object _, RoutedEventArgs e)
+        {
+            SubjectSelectDialog dialog = new();
+            if (await dialog.ShowAsync() is ContentDialogResult.None)
+                return;
+
+            await DeleteTasks(x => x.Subject == dialog.SelectedSubject);
         }
 
         private void TaskButton_Click(object sender, RoutedEventArgs e)
@@ -163,25 +144,6 @@ namespace GGHS_Todo
             }
         }
 
-        private async void RemoveAllButton_Click(object sender, RoutedEventArgs e)
-        {
-            await DeleteTasksByExpression(null);
-        }
-
-        private async void SelectDate_Click(object sender, RoutedEventArgs e)
-        {
-            DateSelectDialog dialog = new();
-            await dialog.ShowAsync();
-
-            var date = dialog.SelectedDate;
-            await DeleteTasksByExpression(x => x.DueDate.Value == date);
-        }
-
-        private async void SelectSubject_Click(object sender, RoutedEventArgs e)
-        {
-            SubjectSelectDialog dialog = new();
-            await dialog.ShowAsync();
-        }
     }
 }
 

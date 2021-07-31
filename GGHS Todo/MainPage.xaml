@@ -9,7 +9,7 @@
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
     <Grid>
-        <Grid Margin="177,65,0,0" HorizontalAlignment="Left" Width="553" Height="118" VerticalAlignment="Top">
+        <Grid Margin="177,65,0,0" HorizontalAlignment="Left" Width="783" Height="118" VerticalAlignment="Top">
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -18,7 +18,7 @@
                     <Setter Property="FontFamily" Value="Assets/ZegoeLight-U.ttf#Segoe" />
                 </Style>
             </Grid.Resources>
-            <TextBlock x:Name="mainText" Text="GGHS Todo Preview 3" FontSize="55" Height="73" FontWeight="Bold" Width="529"/>
+            <TextBlock x:Name="mainText" Text="GGHS Todo Release Candidate" FontSize="55" Height="73" FontWeight="Bold" Width="757"/>
             <TextBlock x:Name="mainText2" Text="Don't forget any of your tasks" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0"/>
         </Grid>
         <Grid Margin="10,205,0,10" HorizontalAlignment="Left" Width="315">
@@ -43,12 +43,12 @@
                 <TextBlock><Run Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Delete..."/></TextBlock>
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="Delete past tasks" Click="RemoveButton_Click"/>
-                        <MenuFlyoutItem Text="Delete all" Click="RemoveAllButton_Click"/>
+                        <MenuFlyoutItem Text="Delete past tasks" Icon="ClosePane" Click="DeletePastButton_Click"/>
+                        <MenuFlyoutItem Text="Delete all" Icon="Rotate" Click="DeleteAllButton_Click"/>
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutSubItem Text="Advanced">
-                            <MenuFlyoutItem Text="Select date" Click="SelectDate_Click"/>
-                            <!--MenuFlyoutItem Text="Select subject" Click="SelectSubject_Click"/-->
+                            <MenuFlyoutItem Text="Select date" Icon="Calendar" Click="SelectDate_Click" />
+                            <MenuFlyoutItem Text="Select subject" Icon="AllApps"  Click="SelectSubject_Click"/>
                         </MenuFlyoutSubItem>
                     </MenuFlyout>
                 </Button.Flyout>

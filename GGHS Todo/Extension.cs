@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +20,9 @@ namespace GGHS_Todo
         {
             return string.IsNullOrWhiteSpace(tb.Text);
         }
+
+        public static bool IsNullOrEmpty<T>(this List<T>? list) => list is null || !list.Any();
+
+        public static string putS(this string str, int count) => count is 0 or 1 ? str : str + "s";
     }
 }

@@ -94,6 +94,14 @@ namespace GGHS_Todo
 
             Subjects = Grade1.Concat(Grade2).Concat(Grade3).ToList();
             Subjects.Add("기타");
+
+            GradeRadioButtons.SelectedIndex = MainPage.Grade switch
+            {
+                Grades.Grade1 => 0,
+                Grades.Grade2 => 1,
+                Grades.Grade3 => 2,
+                Grades.None => -1
+            };
             SubjectPicker.ItemsSource = Subjects;
 
             if (Task is not null) // Clicked a button
@@ -223,6 +231,12 @@ namespace GGHS_Todo
         {
             if (sender is RadioButtons rb)
             {
+                MainPage.Grade = rb.SelectedIndex switch
+                {
+                    0 => Grades.Grade1,
+                    1 => Grades.Grade2,
+                    2 => Grades.Grade3,
+                };
                 if (rb.SelectedItem is string str)
                 {
                     var list = str switch

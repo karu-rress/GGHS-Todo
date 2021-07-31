@@ -28,7 +28,7 @@
                 </Style>
             </Grid.Resources>
             <TextBlock x:Name="mainText" Text="Add New Task" FontSize="55" Height="73" />
-            <TextBlock x:Name="mainText2" Text="GGHS Todo Preview" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0" FontFamily="Assets/ZegoeLight-U.ttf#Segoe"/>
+            <TextBlock x:Name="mainText2" Text="GGHS Todo" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0" FontFamily="Assets/ZegoeLight-U.ttf#Segoe"/>
         </Grid>
 
         <Grid Margin="50,232,330,0" Height="80" VerticalAlignment="Top">
@@ -82,7 +82,7 @@
                 <TextBlock><Run Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Delete"/></TextBlock>
             </Button>
         </Grid>
-        <Custom:RadioButtons Margin="-350,311,0,0" VerticalAlignment="Top" Height="45" MaxColumns="3" SelectedIndex="-1" SelectionChanged="RadioButtons_SelectionChanged" HorizontalAlignment="Center" Width="385">
+        <Custom:RadioButtons x:Name="GradeRadioButtons" Margin="-350,311,0,0" VerticalAlignment="Top" Height="45" MaxColumns="3" SelectedIndex="-1" SelectionChanged="RadioButtons_SelectionChanged" HorizontalAlignment="Center" Width="385">
             <x:String>Grade 1</x:String>
             <x:String>Grade 2</x:String>
             <x:String>Grade 3</x:String>
