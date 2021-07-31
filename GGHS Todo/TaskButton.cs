@@ -149,13 +149,8 @@ namespace GGHS_Todo
             string? text = null;
             if (Task.DueDate is not null)
             {
-                int days = (DateTime.Now - Task.DueDate.Value).Days;
-                days = days switch
-                {
-                    < 0 => days - 1,
-                    _ => days,
-                };
-
+                var now = DateTime.Now;
+                int days = (new DateTime(now.Year, now.Month, now.Day) - Task.DueDate.Value).Days;
                 text = "D" + days switch
                 {
                     0 => "-Day",

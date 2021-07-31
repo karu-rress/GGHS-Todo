@@ -121,12 +121,7 @@ namespace GGHS_Todo
         {
             if (DueDatePicker.SelectedDate is null || SubjectPicker.SelectedIndex is -1 || TitleTextBox.IsNullOrWhiteSpace())
             {
-                ContentDialog content = new()
-                {
-                    Title = "Error",
-                    Content = "Date, subject and title are required.",
-                    CloseButtonText = "OK",
-                };
+                ContentMessageDialog content = new("Date, subject and title are required.", "Error");
                 await content.ShowAsync();
                 return;
             }
@@ -150,19 +145,13 @@ namespace GGHS_Todo
 
         private void CancelButton_Click(object sender, RoutedEventArgs e) => Close();
 
-
         private void Close() { Task = null; Frame.Navigate(typeof(MainPage)); }
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (Modified())
             {
-                ContentDialog content = new()
-                {
-                    Title = "Couldn't delete",
-                    Content = "This task has been modified. Save or discard changes and try again.",
-                    CloseButtonText = "OK"
-                };
+                ContentMessageDialog content = new("This task has been modified. Save or discard changes and try again.", "Couldn't delete");
                 await content.ShowAsync();
                 return;
             }

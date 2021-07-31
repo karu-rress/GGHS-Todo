@@ -9,7 +9,7 @@
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
     <Grid>
-        <Grid Margin="177,65,0,0" HorizontalAlignment="Left" Width="783" Height="118" VerticalAlignment="Top">
+        <Grid Margin="139,47,0,0" HorizontalAlignment="Left" Width="783" Height="118" VerticalAlignment="Top">
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -18,7 +18,7 @@
                     <Setter Property="FontFamily" Value="Assets/ZegoeLight-U.ttf#Segoe" />
                 </Style>
             </Grid.Resources>
-            <TextBlock x:Name="mainText" Text="GGHS Todo Release Candidate" FontSize="55" Height="73" FontWeight="Bold" Width="757"/>
+            <TextBlock x:Name="mainText" Text="GGHS Todo" FontSize="55" Height="73" FontWeight="Bold" Width="757"/>
             <TextBlock x:Name="mainText2" Text="Don't forget any of your tasks" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0"/>
         </Grid>
         <Grid Margin="10,205,0,10" HorizontalAlignment="Left" Width="315">
@@ -53,11 +53,11 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
+            <TextBlock Margin="52,420,0,418" FontSize="18" Text="Right-click a task to delete it" Foreground="#ff555555" Width="217" HorizontalAlignment="Left"/>
         </Grid>
-        <ScrollViewer Margin="325,205,45,10">
+        <ScrollViewer Margin="325,185,45,10">
             <Grid x:Name="TaskGrid"/>
         </ScrollViewer>
-        <TextBlock Margin="0,181,525,872" FontSize="18" Text="Right-click a task to delete it" Foreground="#ff555555" HorizontalAlignment="Right" Width="246"/>
     </Grid>
 </Page>
 
