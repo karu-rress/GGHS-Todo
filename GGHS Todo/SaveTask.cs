@@ -14,10 +14,8 @@ namespace GGHS_Todo
         private static StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
         private const string token = "!*^#$^*#%";
         private const string endLineToken = "@#&^*$@*#";
-        public static async void Save()
+        public static async System.Threading.Tasks.Task Save()
         {
-
-
             var saveFile = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
             using var stream = await saveFile.OpenAsync(FileAccessMode.ReadWrite);
             using var outputStream = stream.GetOutputStreamAt(0);

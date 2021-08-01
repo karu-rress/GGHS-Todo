@@ -42,6 +42,8 @@ namespace GGHS_Todo
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
+
+
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -73,6 +75,7 @@ namespace GGHS_Todo
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
 
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
@@ -95,11 +98,11 @@ namespace GGHS_Todo
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
-            SaveTask.Save();
+            await SaveTask.Save();
             deferral.Complete();
         }
     }

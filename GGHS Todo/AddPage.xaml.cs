@@ -100,7 +100,8 @@ namespace GGHS_Todo
                 Grades.Grade1 => 0,
                 Grades.Grade2 => 1,
                 Grades.Grade3 => 2,
-                Grades.None => -1
+                Grades.None => -1,
+                _ => throw new ArgumentException()
             };
             SubjectPicker.ItemsSource = Subjects;
 
@@ -225,6 +226,7 @@ namespace GGHS_Todo
                     0 => Grades.Grade1,
                     1 => Grades.Grade2,
                     2 => Grades.Grade3,
+                    _ => throw new NotImplementedException(),
                 };
                 if (rb.SelectedItem is string str)
                 {

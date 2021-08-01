@@ -132,7 +132,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContentMessageDialog.cs" />
     <Compile Include="DateSelectDialog.xaml.cs">
       <DependentUpon>DateSelectDialog.xaml</DependentUpon>
     </Compile>
@@ -148,6 +147,7 @@
       <DependentUpon>SubjectSelectDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="TaskButton.cs" />
+    <Compile Include="Undo.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -242,6 +242,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="GGHS Todo_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\RollingUWP\RollingUWP\RollingUWP.csproj">
+      <Project>{539d1184-789f-4991-b760-8978e95f6052}</Project>
+      <Name>RollingUWP</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
