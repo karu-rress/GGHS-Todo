@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
+using RollingRess;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -140,7 +140,7 @@ namespace GGHS_Todo
             {
                 MainPage.TaskList.Add(task);
             }
-            MainPage.TaskList.Sort((x, y) => x.DueDate.Value.CompareTo(y.DueDate.Value));
+            MainPage.TaskList.Sort();
             Close();
         }
 

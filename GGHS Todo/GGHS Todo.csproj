@@ -142,12 +142,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveTask.cs" />
-    <Compile Include="Subjects.cs" />
     <Compile Include="SubjectSelectDialog.xaml.cs">
       <DependentUpon>SubjectSelectDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="TaskButton.cs" />
-    <Compile Include="Undo.cs" />
+    <Compile Include="TaskList.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
