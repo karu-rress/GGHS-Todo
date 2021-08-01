@@ -94,9 +94,6 @@ namespace GGHS_Todo
                 btnFlyOut.Items.Add(edit);
                 btnFlyOut.Items.Add(delete);
                 btnFlyOut.Placement = FlyoutPlacementMode.Bottom;
-
-                // FrameworkElement senderElement = sender as FrameworkElement;
-                //the code can show the flyout in your mouse click 
                 btnFlyOut.ShowAt(uiElem, e.GetPosition(uiElem));
             }
         }

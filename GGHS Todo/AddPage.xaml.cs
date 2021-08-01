@@ -90,7 +90,7 @@ namespace GGHS_Todo
 
         public AddPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             Subjects = Grade1.Concat(Grade2).Concat(Grade3).ToList();
             Subjects.Add("기타");
@@ -189,30 +189,6 @@ namespace GGHS_Todo
             return task != Task;
         }
 
-        /*
-         
-         private void BackgroundColor_SelectionChanged(object sender, SelectionChangedEventArgs e)
-{
-    if (ExampleBorder != null && sender is muxc.RadioButtons rb)
-    {
-        string colorName = rb.SelectedItem as string;
-        switch (colorName)
-        {
-            case "Red":
-                ExampleBorder.Background = new SolidColorBrush(Colors.Red);
-                break;
-            case "Green":
-                ExampleBorder.Background = new SolidColorBrush(Colors.Green);
-                break;
-            case "Blue":
-                ExampleBorder.Background = new SolidColorBrush(Colors.Blue);
-                break;
-        }
-    }
-}
-         
-         */
-
         private void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sender is RadioButtons rb)
@@ -222,7 +198,7 @@ namespace GGHS_Todo
                     0 => Grades.Grade1,
                     1 => Grades.Grade2,
                     2 => Grades.Grade3,
-                    _ => throw new NotImplementedException(),
+                    _ => throw new Exception(),
                 };
                 if (rb.SelectedItem is string str)
                 {
@@ -231,6 +207,7 @@ namespace GGHS_Todo
                         "Grade 1" => Grade1,
                         "Grade 2" => Grade2,
                         "Grade 3" => Grade3,
+                        _ => throw new Exception(),
                     };
                     if (list.Contains("기타") is false)
                         list.Add("기타");

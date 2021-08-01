@@ -9,7 +9,7 @@
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
     <Grid>
-        <Grid Margin="139,47,0,0" HorizontalAlignment="Left" Width="783" Height="118" VerticalAlignment="Top">
+        <Grid Margin="139,47,0,0" HorizontalAlignment="Left" Width="381" Height="118" VerticalAlignment="Top">
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -39,7 +39,7 @@
             <Button x:Name="AddButton" Margin="0,115,0,0" Click="AddButton_Click">
                 <TextBlock><Run Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Add New"/></TextBlock>
             </Button>
-            <Button x:Name="RemoveButton" Margin="0,280,0,0">
+            <Button x:Name="RemoveButton" Margin="0,280,0,0" CornerRadius="10,10,0,0" Height="50">
                 <TextBlock><Run Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Delete..."/></TextBlock>
                 <Button.Flyout>
                     <MenuFlyout>
@@ -53,14 +53,14 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
-            <TextBlock Margin="40,550,0,281" FontSize="20" Text="Right-click a task to delete it" Foreground="#ff555555" Width="245" HorizontalAlignment="Left"/>
-            <Button x:Name="UndoButton" Margin="0,433,0,0" Click="UndoButton_Click">
+            <Button x:Name="UndoButton" Margin="0,330,0,0" Click="UndoButton_Click" CornerRadius="0,0,10,10" Height="50">
                 <TextBlock><Run Text="&#xE7A7;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Undo Delete"/></TextBlock>
             </Button>
         </Grid>
         <ScrollViewer Margin="325,185,45,10">
             <Grid x:Name="TaskGrid"/>
         </ScrollViewer>
+        <TextBlock Margin="1136,138,0,908" FontSize="20" Text="Right-click a task to delete it" Foreground="#ff555555" Width="303" HorizontalAlignment="Left"/>
     </Grid>
 </Page>
 
