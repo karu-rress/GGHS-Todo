@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
+using RollingRess;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -140,7 +140,7 @@ namespace GGHS_Todo
             {
                 MainPage.TaskList.Add(task);
             }
-            MainPage.TaskList.Sort((x, y) => x.DueDate.Value.CompareTo(y.DueDate.Value));
+            MainPage.TaskList.Sort();
             Close();
         }
 
@@ -163,9 +163,10 @@ namespace GGHS_Todo
 
         public static async System.Threading.Tasks.Task DeleteTask(string taskName, Task task)
         {
+            const string title = "Delete";
             ContentDialog contentDialog = new()
             {
-                Title = "Delete",
+                Title = title,
                 Content = $"Are you sure want to delete '{taskName}'?",
                 PrimaryButtonText = "Yes",
                 DefaultButton = ContentDialogButton.Primary,
@@ -175,12 +176,7 @@ namespace GGHS_Todo
                 return;
 
             MainPage.TaskList.Remove(task);
-            contentDialog = new()
-            {
-                Title = "Removal Successful",
-                Content = "Successfully deleted.",
-                CloseButtonText = "OK",
-            };
+            contentDialog = new ContentMessageDialog("Successfully deleted.", title);
             await contentDialog.ShowAsync();
         }
 

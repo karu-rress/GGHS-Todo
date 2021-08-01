@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel;
+using RollingRess;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 // Enables using record types as tuple-like types.
@@ -32,7 +33,7 @@ namespace GGHS_Todo
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public static List<Task> TaskList { get; set; } = new();
+        public static TaskList TaskList { get; set; } = new();
 
         private static readonly PackageVersion version = Package.Current.Id.Version;
         public static string Version => $"{version.Major}.{version.Minor}.{version.Build}";
@@ -50,7 +51,7 @@ namespace GGHS_Todo
         /// </summary>
         private void LoadTasks()
         {
-            if (TaskList.IsNullOrEmpty())
+            if (TaskList.IsNullOrEmpty)
                 return;
 
             int buttons = 0;
@@ -70,13 +71,12 @@ namespace GGHS_Todo
 
         private async System.Threading.Tasks.Task DeleteTasks(Predicate<Task>? match)
         {
-            if (TaskList.IsNullOrEmpty())
+            if (TaskList.IsNullOrEmpty)
             {
                 await NothingToDelete();
                 return;
             }
-
-            int cnt = (match is null) ? TaskList.Count : TaskList.FindAll(match).Count;
+            int cnt = TaskList.CountAll(match);
             if (cnt is 0)
             {
                 await NothingToDelete();
@@ -95,10 +95,7 @@ namespace GGHS_Todo
             if (await contentDialog.ShowAsync() is ContentDialogResult.None)
                 return;
 
-            if (match is null)
-                TaskList.Clear();
-            else
-                TaskList.RemoveAll(match);
+           TaskList.RemoveAll(match);
 
             ReloadTasks();
             contentDialog = new ContentMessageDialog($"Successfully deleted {cnt} {"task".putS(cnt)}.", title, "Close");
@@ -142,6 +139,20 @@ namespace GGHS_Todo
                 AddPage.Task = tb.Task;
                 Frame.Navigate(typeof(AddPage));
             }
+        }
+
+        private async void UndoButton_Click(object sender, RoutedEventArgs e)
+        {
+            int result = TaskList.Undo();
+            if (result is 0)
+            {
+                var message = new ContentMessageDialog("Nothing to restore.", "Undo Delete");
+                await message.ShowAsync();
+                return;
+            }
+            ReloadTasks();
+            ContentMessageDialog msg = new($"Successfully restored {result} {"item".putS(result)}.", "Undo Delete");
+            await msg.ShowAsync();
         }
 
         /*

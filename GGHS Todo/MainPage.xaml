@@ -53,7 +53,10 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
-            <TextBlock Margin="52,420,0,418" FontSize="18" Text="Right-click a task to delete it" Foreground="#ff555555" Width="217" HorizontalAlignment="Left"/>
+            <TextBlock Margin="40,550,0,281" FontSize="20" Text="Right-click a task to delete it" Foreground="#ff555555" Width="245" HorizontalAlignment="Left"/>
+            <Button x:Name="UndoButton" Margin="0,433,0,0" Click="UndoButton_Click">
+                <TextBlock><Run Text="&#xE7A7;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Undo Delete"/></TextBlock>
+            </Button>
         </Grid>
         <ScrollViewer Margin="325,185,45,10">
             <Grid x:Name="TaskGrid"/>
