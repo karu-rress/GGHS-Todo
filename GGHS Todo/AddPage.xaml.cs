@@ -198,7 +198,7 @@ namespace GGHS_Todo
                     0 => Grades.Grade1,
                     1 => Grades.Grade2,
                     2 => Grades.Grade3,
-                    _ => throw new Exception(),
+                    _ => throw new ArgumentException($"rb.SelectedIndex: Expected 0-2, but given {rb.SelectedIndex}."),
                 };
                 if (rb.SelectedItem is string str)
                 {
@@ -207,7 +207,7 @@ namespace GGHS_Todo
                         "Grade 1" => Grade1,
                         "Grade 2" => Grade2,
                         "Grade 3" => Grade3,
-                        _ => throw new Exception(),
+                        _ => throw new Exception($"rb.SelectedItem: expected \"Grade 1-3\", but given {str}."),
                     };
                     if (list.Contains("기타") is false)
                         list.Add("기타");

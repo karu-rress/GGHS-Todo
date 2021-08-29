@@ -109,7 +109,7 @@ namespace GGHS_Todo
         }
 
         private async void DeletePastButton_Click(object _, RoutedEventArgs e)
-            => await DeleteTasks(x => x.DueDate < DateTime.Now);
+            => await DeleteTasks(x => x.DueDate.Value.Date < DateTime.Now.Date);
 
         private async void DeleteAllButton_Click(object _, RoutedEventArgs e) => await DeleteTasks(null);
 
