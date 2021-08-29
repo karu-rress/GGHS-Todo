@@ -150,7 +150,7 @@ namespace GGHS_Todo
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Modified())
+            if (Modified)
             {
                 ContentMessageDialog content = new("This task has been modified. Save or discard changes and try again.", "Couldn't delete");
                 await content.ShowAsync();
@@ -180,19 +180,25 @@ namespace GGHS_Todo
             await contentDialog.ShowAsync();
         }
 
-        private bool Modified()
+        private bool Modified
         {
-            if (Task is null)
-                return false;
-            Task task = new(DueDatePicker.Date.DateTime, SubjectPicker.SelectedItem as string, TitleTextBox.Text,
-    string.IsNullOrWhiteSpace(BodyTextBox.Text) ? null : BodyTextBox.IsNullOrWhiteSpace() ? null : BodyTextBox.Text);
-            return task != Task;
+            get
+            {
+                if (Task is null)
+                    return false;
+                Task task = new(DueDatePicker.Date.DateTime, SubjectPicker.SelectedItem as string, TitleTextBox.Text,
+        string.IsNullOrWhiteSpace(BodyTextBox.Text) ? null : BodyTextBox.IsNullOrWhiteSpace() ? null : BodyTextBox.Text);
+                return task != Task;
+            }
         }
 
         private void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sender is RadioButtons rb)
             {
+                if (rb.SelectedIndex is -1)
+                    return;
+
                 MainPage.Grade = rb.SelectedIndex switch
                 {
                     0 => Grades.Grade1,
