@@ -161,24 +161,7 @@ namespace GGHS_Todo
             Close();
         }
 
-        public static async System.Threading.Tasks.Task DeleteTask(string taskName, Task task)
-        {
-            const string title = "Delete";
-            ContentDialog contentDialog = new()
-            {
-                Title = title,
-                Content = $"Are you sure want to delete '{taskName}'?",
-                PrimaryButtonText = "Yes",
-                DefaultButton = ContentDialogButton.Primary,
-                CloseButtonText = "No"
-            };
-            if (await contentDialog.ShowAsync() is not ContentDialogResult.Primary)
-                return;
 
-            MainPage.TaskList.Remove(task);
-            contentDialog = new ContentMessageDialog("Successfully deleted.", title);
-            await contentDialog.ShowAsync();
-        }
 
         private bool Modified
         {

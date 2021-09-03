@@ -135,6 +135,7 @@
     <Compile Include="DateSelectDialog.xaml.cs">
       <DependentUpon>DateSelectDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Delete.cs" />
     <Compile Include="Exception.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="MainPage.xaml.cs">
