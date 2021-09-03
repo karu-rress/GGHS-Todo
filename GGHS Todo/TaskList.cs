@@ -13,14 +13,12 @@ namespace GGHS_Todo
     using Match = Predicate<Task>;
     public class TaskList : IEnumerable<Task>
     {
-        
         private List<Task> taskList = new();
         public List<Task> List { get => taskList; }
         private Stack<List<Task>> taskStack = new();
 
         public TaskList()
         {
-
         }
 
         public IEnumerator<Task> GetEnumerator() => taskList.GetEnumerator();
@@ -76,6 +74,7 @@ namespace GGHS_Todo
             if (list.Count is 0)
                 return 0;
             taskList.AddRange(list);
+            Sort();
             return list.Count;
         }
 

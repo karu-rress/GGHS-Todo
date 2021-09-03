@@ -69,45 +69,6 @@ namespace GGHS_Todo
 
         private void AddButton_Click(object _, RoutedEventArgs e) => Frame.Navigate(typeof(AddPage));
 
-        private async System.Threading.Tasks.Task DeleteTasks(Predicate<Task>? match)
-        {
-            if (TaskList.IsNullOrEmpty)
-            {
-                await NothingToDelete();
-                return;
-            }
-            int cnt = TaskList.CountAll(match);
-            if (cnt is 0)
-            {
-                await NothingToDelete();
-                return;
-            }
-
-            const string title = "Delete";
-            ContentDialog contentDialog = new()
-            {
-                Content = $"Are you sure want to delete {cnt} {"task".putS(cnt)}?",
-                Title = title,
-                CloseButtonText = "Cancel",
-                PrimaryButtonText = "Yes, delete",
-                DefaultButton = ContentDialogButton.Primary
-            };
-            if (await contentDialog.ShowAsync() is ContentDialogResult.None)
-                return;
-
-           TaskList.RemoveAll(match);
-
-            ReloadTasks();
-            contentDialog = new ContentMessageDialog($"Successfully deleted {cnt} {"task".putS(cnt)}.", title, "Close");
-            await contentDialog.ShowAsync();
-
-            static async System.Threading.Tasks.Task NothingToDelete()
-            {
-                ContentMessageDialog message = new("Nothing to delete.", "Delete");
-                await message.ShowAsync();
-            }
-        }
-
         private async void DeletePastButton_Click(object _, RoutedEventArgs e)
             => await DeleteTasks(x => x.DueDate.Value.Date < DateTime.Now.Date);
 
@@ -154,15 +115,6 @@ namespace GGHS_Todo
             ContentMessageDialog msg = new($"Successfully restored {result} {"item".putS(result)}.", "Undo Delete");
             await msg.ShowAsync();
         }
-
-        /*
-         
-         GGHS TODO 2.0:
-        Undo delete with STACK 자료구조
-         
-         */
-
-
     }
 }
 
