@@ -244,10 +244,10 @@
     <None Include="GGHS Todo_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RollingUWP\RollingUWP\RollingUWP.csproj">
-      <Project>{539d1184-789f-4991-b760-8978e95f6052}</Project>
-      <Name>RollingUWP</Name>
-    </ProjectReference>
+    <Reference Include="RollingUWP, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RollingUWP\RollingUWP\bin\Release\RollingUWP.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

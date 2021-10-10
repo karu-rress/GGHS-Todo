@@ -7,6 +7,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel;
 using RollingRess;
+using Windows.UI.Xaml.Media.Animation;
+using System.Linq;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 // Enables using record types as tuple-like types.
@@ -46,28 +48,42 @@ namespace GGHS_Todo
             LoadTasks();
         }
 
+        private enum TaskLoadType
+        {
+            Default,
+            OnlyToday,
+        }
+
+
         /// <summary>
         /// Adds task buttons to the grid.
         /// </summary>
-        private void LoadTasks()
+        private void LoadTasks(TaskLoadType loadType = TaskLoadType.Default)
         {
             if (TaskList.IsNullOrEmpty)
                 return;
 
             int buttons = 0;
-            foreach (var task in TaskList)
+            List<Task> taskButtons = loadType switch
+            {
+                TaskLoadType.Default => TaskList.List,
+                TaskLoadType.OnlyToday => (from task in TaskList.List 
+                                           where task.DueDate?.Date == DateTime.Now.Date 
+                                           select task).ToList(),
+            };
+            foreach (var task in taskButtons)
             {
                 TaskGrid.Children.Add(new TaskButton(task, TaskButton_Click, buttons++));
             }
         }
 
-        private void ReloadTasks()
+        private void ReloadTasks(TaskLoadType loadType = TaskLoadType.Default)
         {
             TaskGrid.Children.Clear();
-            LoadTasks();
+            LoadTasks(loadType);
         }
 
-        private void AddButton_Click(object _, RoutedEventArgs e) => Frame.Navigate(typeof(AddPage));
+        private void AddButton_Click(object _, RoutedEventArgs e) => Frame.Navigate(typeof(AddPage), null, new DrillInNavigationTransitionInfo());
 
         private async void DeletePastButton_Click(object _, RoutedEventArgs e)
             => await DeleteTasks(x => x.DueDate.Value.Date < DateTime.Now.Date);
@@ -98,7 +114,7 @@ namespace GGHS_Todo
             if (sender is TaskButton tb)
             {
                 AddPage.Task = tb.Task;
-                Frame.Navigate(typeof(AddPage));
+                Frame.Navigate(typeof(AddPage), null, new DrillInNavigationTransitionInfo());
             }
         }
 
@@ -115,68 +131,17 @@ namespace GGHS_Todo
             ContentMessageDialog msg = new($"Successfully restored {result} {"item".putS(result)}.", "Undo Delete");
             await msg.ShowAsync();
         }
+
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (TodayToggle.IsOn) // Today only
+            {
+                ReloadTasks(TaskLoadType.OnlyToday);
+            }
+            else
+            {
+                ReloadTasks(TaskLoadType.Default);
+            }
+        }
     }
 }
-
-//  TODO 함수 이름 재정리. 최적화
-
-/*
-Button b = new() { Height = ButtonHeight, Margin = new(0, 98 * buttons, 0, 0) };
-b.Click += TaskButton_Click;
-
-Grid inner = new()
-{
-Height = 80,
-Width = 2560,
-Margin = new(-12, 0, 0, 0)
-};
-Grid dday = new()
-{ 
-Width = 65,
-Margin = new(10, 0, 0, 0),
-};
-TextBlock tb1 = new()
-{
-FontSize = 19,
-Text = task.DueDate?.ToString("MM/dd"),
-Margin = new(0, 10, 0, 46),
-HorizontalAlignment = HorizontalAlignment.Center,
-FontFamily = new("Segoe"),
-FontWeight = FontWeights.Bold
-};
-TextBlock tb2 = new()
-{ 
-FontSize = 15,
-Text = "D" + (DateTime.Now < task.DueDate.Value ? "" : "+") + (DateTime.Now - task.DueDate.Value).Days,
-Margin = new(0, 44, 0, 12),
-HorizontalAlignment = HorizontalAlignment.Center,
-FontFamily = new("Consolas"),
-FontWeight = FontWeights.Bold
-};
-dday.Children.Add(tb1);
-dday.Children.Add(tb2);
-
-TextBlock tb3 = new()
-{ 
-FontSize = 17,
-Text = task.Subject,
-Margin = new(80, 12, 0, 44),
-Width = ButtonWidth
-};
-TextBlock tb4 = new()
-{
-FontSize = 15,
-Text = task.Title,
-Margin = new(80, 43, 0, 13),
-HorizontalAlignment = HorizontalAlignment.Left,
-Width = ButtonWidth,
-Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xA4, 0xA4, 0xA4))
-};
-inner.Children.Add(dday);
-inner.Children.Add(tb3);
-inner.Children.Add(tb4);
-b.Content = inner;
-TaskGrid.Children.Add(b);
-
-buttons++;
-*/
