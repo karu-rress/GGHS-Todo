@@ -27,7 +27,7 @@ namespace GGHS_Todo
     public sealed partial class AddPage : Page
     {
         public static Task? Task { get; set; } = null;
-        public List<string> Grade1 { get; } = new()
+        public static List<string> Grade1 => new()
         {
             "국어",
             "수학",
@@ -45,7 +45,7 @@ namespace GGHS_Todo
             "국제관계의 이해",
         };
 
-        public List<string> Grade2 { get; } = new()
+        public List<string> Grade2 => new()
         {
             "독서",
             "수학Ⅱ",
@@ -146,7 +146,7 @@ namespace GGHS_Todo
 
         private void CancelButton_Click(object sender, RoutedEventArgs e) => Close();
 
-        private void Close() { Task = null; Frame.Navigate(typeof(MainPage)); }
+        private void Close() { Task = null; Frame.Navigate(typeof(MainPage), null, new Windows.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo()); }
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -160,8 +160,6 @@ namespace GGHS_Todo
             await DeleteTask(TitleTextBox.Text, Task);
             Close();
         }
-
-
 
         private bool Modified
         {

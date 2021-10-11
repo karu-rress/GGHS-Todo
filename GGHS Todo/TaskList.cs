@@ -52,7 +52,8 @@ namespace GGHS_Todo
                 return;
             }
 
-            Contract.Requires<ArgumentException>(FindAll(match) is not null);
+            // 이렇게 쓰는 거 아님. 이거 메서드 맨 앞으로.
+            // Contract.Requires(FindAll(match) is not null);
 
             var list = FindAll(match);
             taskStack.Push(list);
