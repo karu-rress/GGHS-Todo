@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel;
 using RollingRess;
+using Windows.UI.Xaml.Media.Animation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 // Enables using record types as tuple-like types.
@@ -67,7 +68,7 @@ namespace GGHS_Todo
             LoadTasks();
         }
 
-        private void AddButton_Click(object _, RoutedEventArgs e) => Frame.Navigate(typeof(AddPage));
+        private void AddButton_Click(object _, RoutedEventArgs e) => Frame.Navigate(typeof(AddPage), null, new DrillInNavigationTransitionInfo());
 
         private async System.Threading.Tasks.Task DeleteTasks(Predicate<Task>? match)
         {
@@ -95,7 +96,7 @@ namespace GGHS_Todo
             if (await contentDialog.ShowAsync() is ContentDialogResult.None)
                 return;
 
-           TaskList.RemoveAll(match);
+            TaskList.RemoveAll(match);
 
             ReloadTasks();
             contentDialog = new ContentMessageDialog($"Successfully deleted {cnt} {"task".putS(cnt)}.", title, "Close");
@@ -154,77 +155,5 @@ namespace GGHS_Todo
             ContentMessageDialog msg = new($"Successfully restored {result} {"item".putS(result)}.", "Undo Delete");
             await msg.ShowAsync();
         }
-
-        /*
-         
-         GGHS TODO 2.0:
-        Undo delete with STACK 자료구조
-         
-         */
-
-
     }
 }
-
-//  TODO 함수 이름 재정리. 최적화
-
-/*
-Button b = new() { Height = ButtonHeight, Margin = new(0, 98 * buttons, 0, 0) };
-b.Click += TaskButton_Click;
-
-Grid inner = new()
-{
-Height = 80,
-Width = 2560,
-Margin = new(-12, 0, 0, 0)
-};
-Grid dday = new()
-{ 
-Width = 65,
-Margin = new(10, 0, 0, 0),
-};
-TextBlock tb1 = new()
-{
-FontSize = 19,
-Text = task.DueDate?.ToString("MM/dd"),
-Margin = new(0, 10, 0, 46),
-HorizontalAlignment = HorizontalAlignment.Center,
-FontFamily = new("Segoe"),
-FontWeight = FontWeights.Bold
-};
-TextBlock tb2 = new()
-{ 
-FontSize = 15,
-Text = "D" + (DateTime.Now < task.DueDate.Value ? "" : "+") + (DateTime.Now - task.DueDate.Value).Days,
-Margin = new(0, 44, 0, 12),
-HorizontalAlignment = HorizontalAlignment.Center,
-FontFamily = new("Consolas"),
-FontWeight = FontWeights.Bold
-};
-dday.Children.Add(tb1);
-dday.Children.Add(tb2);
-
-TextBlock tb3 = new()
-{ 
-FontSize = 17,
-Text = task.Subject,
-Margin = new(80, 12, 0, 44),
-Width = ButtonWidth
-};
-TextBlock tb4 = new()
-{
-FontSize = 15,
-Text = task.Title,
-Margin = new(80, 43, 0, 13),
-HorizontalAlignment = HorizontalAlignment.Left,
-Width = ButtonWidth,
-Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xA4, 0xA4, 0xA4))
-};
-inner.Children.Add(dday);
-inner.Children.Add(tb3);
-inner.Children.Add(tb4);
-b.Content = inner;
-TaskGrid.Children.Add(b);
-
-buttons++;
-*/

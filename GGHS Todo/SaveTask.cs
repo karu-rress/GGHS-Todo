@@ -19,7 +19,7 @@ namespace GGHS_Todo
             var saveFile = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
             using var stream = await saveFile.OpenAsync(FileAccessMode.ReadWrite);
             using var outputStream = stream.GetOutputStreamAt(0);
-            using var dataWriter = new DataWriter(outputStream);
+            using DataWriter dataWriter = new(outputStream);
 
             StringBuilder sb = new();
             foreach (var task in MainPage.TaskList)

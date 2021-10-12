@@ -28,8 +28,8 @@ namespace GGHS_Todo
      */
     public class TaskButton : Button
     {
-        private const int buttonWidth = 2560;
-        private const int buttonHeight = 93;
+        private int buttonWidth => 2560;
+        private int buttonHeight => 93;
 
         public Task Task { get; private set; }
 
@@ -37,12 +37,12 @@ namespace GGHS_Todo
         {
             Task = task;
             Click += TaskButton_Click;
+            RightTapped += TaskButton_RightTapped;
             Height = buttonHeight;
             Margin = new(0, 98 * buttons, 0, 0);
-            VerticalAlignment = VerticalAlignment.Top;
             CornerRadius = new(10);
-            RightTapped += TaskButton_RightTapped;
-
+            VerticalAlignment = VerticalAlignment.Top;
+            
             CreateGrid(out Grid inner, out Grid dday, out Grid outter);
             CreateDdayTextBlock(out TextBlock tb1, out TextBlock tb2);
             dday.Children.Add(tb1);
@@ -65,20 +65,13 @@ namespace GGHS_Todo
             if (sender is UIElement uiElem)
             {
                 MenuFlyout btnFlyOut = new();
-                MenuFlyoutItem edit = new()
-                {
-                    Text = "Edit",
-                    Icon = new SymbolIcon(Symbol.Edit),
-                };
+                MenuFlyoutItem edit = new() { Text = "Edit", Icon = new SymbolIcon(Symbol.Edit) };
+                MenuFlyoutItem delete = new() { Text = "Delete", Icon = new SymbolIcon(Symbol.Delete) };
+
                 edit.Click += (_, e) => {
                     AddPage.Task = Task;
                     if (Window.Current.Content is Frame rootFrame)
-                        rootFrame.Navigate(typeof(AddPage));
-                };
-                MenuFlyoutItem delete = new()
-                {
-                    Text = "Delete",
-                    Icon = new SymbolIcon(Symbol.Delete)
+                        rootFrame.Navigate(typeof(AddPage), null, new Windows.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo());
                 };
                 delete.Click += async (_, e) =>
                 {
@@ -87,7 +80,7 @@ namespace GGHS_Todo
                     if (Window.Current.Content is Frame rootFrame)
                     {
                         // TODO: 이걸 그냥 MainPage의 Reload Task..?
-                        rootFrame.Navigate(typeof(MainPage));
+                        rootFrame.Navigate(typeof(MainPage), null, new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
                     }
                 };
                 
