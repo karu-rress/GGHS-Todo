@@ -125,28 +125,23 @@ namespace GGHS_Todo
 
         private void CreateDdayTextBlock(out TextBlock tb1, out TextBlock tb2)
         {
-            bool hasNoDueDay = !Task.DueDate.HasValue;
             tb1 = new()
             {
                 FontSize = 19,
-                Text = hasNoDueDay ? null : Task.DueDate?.ToString("MM/dd"),
+                Text = Task.DueDate.ToString("MM/dd"),
                 Margin = new(0, 10, 0, 46),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 FontFamily = new("Segoe"),
                 FontWeight = FontWeights.Bold
             };
 
-            string? text = null;
-            if (Task.DueDate is not null)
+            var now = DateTime.Now;
+            int days = (new DateTime(now.Year, now.Month, now.Day) - Task.DueDate).Days;
+            string text = "D" + days switch
             {
-                var now = DateTime.Now;
-                int days = (new DateTime(now.Year, now.Month, now.Day) - Task.DueDate.Value).Days;
-                text = "D" + days switch
-                {
-                    0 => "-Day",
-                    _ => days.ToString("+0;-0"),
-                };
-            }
+                0 => "-Day",
+                _ => days.ToString("+0;-0"),
+            };
 
             tb2 = new()
             {

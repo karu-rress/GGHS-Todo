@@ -19,7 +19,10 @@ namespace System.Runtime.CompilerServices
 
 namespace GGHS_Todo
 {
-    public record Task(DateTime? DueDate, string Subject, string Title, string? Body);
+    public record Task(DateTime DueDate, string Subject, string Title, string? Body)
+    {
+        public Task() : this(DateTime.Now, "", "", null) { }
+    }
 
     public enum Grades
     {
@@ -37,6 +40,10 @@ namespace GGHS_Todo
         public static TaskList TaskList { get; set; } = new();
 
         private static readonly PackageVersion version = Package.Current.Id.Version;
+
+        /// <summary>
+        /// Shows the version of GGHS Todo, format in "X.X.X"
+        /// </summary>
         public static string Version => $"{version.Major}.{version.Minor}.{version.Build}";
 
         public static Grades Grade { get; set; } = Grades.None;
@@ -110,7 +117,7 @@ namespace GGHS_Todo
         }
 
         private async void DeletePastButton_Click(object _, RoutedEventArgs e)
-            => await DeleteTasks(x => x.DueDate.Value.Date < DateTime.Now.Date);
+            => await DeleteTasks(x => x.DueDate.Date < DateTime.Now.Date);
 
         private async void DeleteAllButton_Click(object _, RoutedEventArgs e) => await DeleteTasks(null);
 
@@ -121,7 +128,7 @@ namespace GGHS_Todo
                 return;
 
             var date = dialog.SelectedDate;
-            await DeleteTasks(x => x.DueDate is not null && x.DueDate.Value == date);
+            await DeleteTasks(x => x.DueDate == date);
         }
 
         private async void SelectSubject_Click(object _, RoutedEventArgs e)

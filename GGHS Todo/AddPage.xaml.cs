@@ -3,31 +3,18 @@
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Animation;
 using RollingRess;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace GGHS_Todo
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class AddPage : Page
     {
         public static Task? Task { get; set; } = null;
-        public List<string> Grade1 { get; } = new()
+        public static List<string> Grade1 => new()
         {
             "국어",
             "수학",
@@ -45,7 +32,7 @@ namespace GGHS_Todo
             "국제관계의 이해",
         };
 
-        public List<string> Grade2 { get; } = new()
+        public static List<string> Grade2 => new()
         {
             "독서",
             "수학Ⅱ",
@@ -68,7 +55,7 @@ namespace GGHS_Todo
             "공간 정보와 공간 분석",
         };
 
-        public List<string> Grade3 { get; } = new()
+        public static List<string> Grade3 => new()
         {
             "체육",
             "논리적 글쓰기",
@@ -110,7 +97,7 @@ namespace GGHS_Todo
                 InitializeComponent();
                 DeleteButton.Visibility = Visibility.Visible;
                 mainText.Text = "Modify Task";
-                DueDatePicker.Date = Task.DueDate.Value;
+                DueDatePicker.Date = Task.DueDate;
                 SubjectPicker.SelectedItem = Task.Subject;
                 TitleTextBox.Text = Task.Title;
                 if (Task.Body is not null)
@@ -128,7 +115,7 @@ namespace GGHS_Todo
             }
 
             var date = DueDatePicker.Date.DateTime;
-            Task task = new(new DateTime(date.Year, date.Month, date.Day), SubjectPicker.SelectedItem as string, TitleTextBox.Text, 
+            Task task = new(new(date.Year, date.Month, date.Day), SubjectPicker.SelectedItem as string, TitleTextBox.Text, 
                 string.IsNullOrWhiteSpace(BodyTextBox.Text) ? null : BodyTextBox.IsNullOrWhiteSpace() ? null : BodyTextBox.Text);
 
             if (Task is not null)
@@ -146,7 +133,7 @@ namespace GGHS_Todo
 
         private void CancelButton_Click(object sender, RoutedEventArgs e) => Close();
 
-        private void Close() { Task = null; Frame.Navigate(typeof(MainPage)); }
+        private void Close() { Task = null; Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo()); }
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -176,8 +163,6 @@ namespace GGHS_Todo
                 return;
 
             MainPage.TaskList.Remove(task);
-            contentDialog = new ContentMessageDialog("Successfully deleted.", title);
-            await contentDialog.ShowAsync();
         }
 
         private bool Modified
