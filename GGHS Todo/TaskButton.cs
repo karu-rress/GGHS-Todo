@@ -28,8 +28,8 @@ namespace GGHS_Todo
      */
     public class TaskButton : Button
     {
-        private int buttonWidth => 2560;
-        private int buttonHeight => 93;
+        private int ButtonWidth => 2560;
+        private int ButtonHeight => 93;
 
         public Task Task { get; private set; }
 
@@ -38,7 +38,7 @@ namespace GGHS_Todo
             Task = task;
             Click += TaskButton_Click;
             RightTapped += TaskButton_RightTapped;
-            Height = buttonHeight;
+            Height = ButtonHeight;
             Margin = new(0, 98 * buttons, 0, 0);
             CornerRadius = new(10);
             VerticalAlignment = VerticalAlignment.Top;
@@ -125,28 +125,23 @@ namespace GGHS_Todo
 
         private void CreateDdayTextBlock(out TextBlock tb1, out TextBlock tb2)
         {
-            bool hasNoDueDay = !Task.DueDate.HasValue;
             tb1 = new()
             {
                 FontSize = 19,
-                Text = hasNoDueDay ? null : Task.DueDate?.ToString("MM/dd"),
+                Text = Task.DueDate.ToString("MM/dd"),
                 Margin = new(0, 10, 0, 46),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 FontFamily = new("Segoe"),
                 FontWeight = FontWeights.Bold
             };
 
-            string? text = null;
-            if (Task.DueDate is not null)
+            var now = DateTime.Now;
+            int days = (new DateTime(now.Year, now.Month, now.Day) - Task.DueDate).Days;
+            string text = "D" + days switch
             {
-                var now = DateTime.Now;
-                int days = (new DateTime(now.Year, now.Month, now.Day) - Task.DueDate.Value).Days;
-                text = "D" + days switch
-                {
-                    0 => "-Day",
-                    _ => days.ToString("+0;-0"),
-                };
-            }
+                0 => "-Day",
+                _ => days.ToString("+0;-0"),
+            };
 
             tb2 = new()
             {
@@ -166,7 +161,7 @@ namespace GGHS_Todo
                 FontSize = 17,
                 Text = Task.Subject,
                 Margin = new(80, 12, 0, 44),
-                Width = buttonWidth
+                Width = ButtonWidth
             };
             tb4 = new()
             {
@@ -174,7 +169,7 @@ namespace GGHS_Todo
                 Text = Task.Title,
                 Margin = new(80, 43, 0, 13),
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Width = buttonWidth,
+                Width = ButtonWidth,
                 Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xA0, 0xA0, 0xA0))
             };
         }

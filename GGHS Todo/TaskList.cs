@@ -13,7 +13,7 @@ namespace GGHS_Todo
     using Match = Predicate<Task>;
     public class TaskList : IEnumerable<Task>
     {
-        public List<Task> List { get; private set; } = new();
+        public List<Task> List { get; set; } = new();
         private Stack<List<Task>> TaskStack => new();
 
         public TaskList()
@@ -75,7 +75,7 @@ namespace GGHS_Todo
             return list.Count;
         }
 
-        public void Sort() => List.Sort((x, y) => x.DueDate.Value.CompareTo(y.DueDate.Value));
+        public void Sort() => List.Sort((x, y) => x.DueDate.CompareTo(y.DueDate));
 
         public int FindIndex(Match? match) => List.FindIndex(match);
 
