@@ -14,17 +14,17 @@ namespace GGHS_Todo
     public class TaskList : IEnumerable<Task>
     {
         public List<Task> List { get; set; } = new();
+        private Stack<List<Task>> TaskStack => new();
 
-        // Do not use => here. it means 'return new Stack<<<>>>'
-        private Stack<List<Task>> TaskStack { get; } = new();
-
-        public TaskList() {  }
+        public TaskList()
+        {
+        }
 
         public IEnumerator<Task> GetEnumerator() => List.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public bool IsNullOrEmpty => List is null || !List.Any();
-        public int Count => List.Count;
+        public bool IsNullOrEmpty { get => List is null || !List.Any(); }
+        public int Count { get => List.Count; }
 
         public int CountAll(Match? match) => match is null ? Count : List.FindAll(match).Count;
 

@@ -2,7 +2,6 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -20,13 +19,13 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>104B5B16BCAC61F9F4D3C66038DC43504C6E4EA4</PackageCertificateThumbprint>
-    <PackageCertificateKeyFile>
-    </PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>
+    </PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>GGHS Todo_TemporaryKey.pfx</PackageCertificateKeyFile>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <GenerateTestArtifacts>False</GenerateTestArtifacts>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
@@ -138,6 +137,7 @@
       <DependentUpon>DateSelectDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Exception.cs" />
+    <Compile Include="Extension.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -146,7 +146,6 @@
     <Compile Include="SubjectSelectDialog.xaml.cs">
       <DependentUpon>SubjectSelectDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Task.cs" />
     <Compile Include="TaskButton.cs" />
     <Compile Include="TaskList.cs" />
   </ItemGroup>
@@ -248,7 +247,7 @@
     <None Include="GGHS Todo_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RollingUWP\RollingUWP\RollingUWP.csproj">
+    <ProjectReference Include="..\..\..\RollingUWP\RollingUWP\RollingUWP.csproj">
       <Project>{539d1184-789f-4991-b760-8978e95f6052}</Project>
       <Name>RollingUWP</Name>
     </ProjectReference>

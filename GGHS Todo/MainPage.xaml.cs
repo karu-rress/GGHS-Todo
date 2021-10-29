@@ -8,7 +8,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel;
 using RollingRess;
 using Windows.UI.Xaml.Media.Animation;
-using Thrd = System.Threading.Tasks;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 // Enables using record types as tuple-like types.
@@ -20,6 +19,11 @@ namespace System.Runtime.CompilerServices
 
 namespace GGHS_Todo
 {
+    public record Task(DateTime DueDate, string Subject, string Title, string? Body)
+    {
+        public Task() : this(DateTime.Now, "", "", null) { }
+    }
+
     public enum Grades
     {
         Grade1,
@@ -28,11 +32,14 @@ namespace GGHS_Todo
         None,
     }
 
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
     public sealed partial class MainPage : Page
     {
         public static TaskList TaskList { get; set; } = new();
 
-        private static PackageVersion version => Package.Current.Id.Version;
+        private static readonly PackageVersion version = Package.Current.Id.Version;
 
         /// <summary>
         /// Shows the version of GGHS Todo, format in "X.X.X"
@@ -62,19 +69,15 @@ namespace GGHS_Todo
             }
         }
 
-        /// <summary>
-        /// Removes all buttons in the grid and reload it.
-        /// </summary>
         private void ReloadTasks()
         {
             TaskGrid.Children.Clear();
             LoadTasks();
         }
 
-        private void AddButton_Click(object _, RoutedEventArgs e) 
-            => Frame.Navigate(typeof(AddPage), null, new DrillInNavigationTransitionInfo());
+        private void AddButton_Click(object _, RoutedEventArgs e) => Frame.Navigate(typeof(AddPage), null, new DrillInNavigationTransitionInfo());
 
-        private async Thrd.Task DeleteTasks(Predicate<Task>? match)
+        private async System.Threading.Tasks.Task DeleteTasks(Predicate<Task>? match)
         {
             if (TaskList.IsNullOrEmpty)
             {
@@ -91,7 +94,7 @@ namespace GGHS_Todo
             const string title = "Delete";
             ContentDialog contentDialog = new()
             {
-                Content = $"Are you sure want to delete {cnt} {"task".PutS(cnt)}?",
+                Content = $"Are you sure want to delete {cnt} {"task".putS(cnt)}?",
                 Title = title,
                 CloseButtonText = "Cancel",
                 PrimaryButtonText = "Yes, delete",
@@ -103,7 +106,7 @@ namespace GGHS_Todo
             TaskList.RemoveAll(match);
 
             ReloadTasks();
-            contentDialog = new ContentMessageDialog($"Successfully deleted {cnt} {"task".PutS(cnt)}.", title, "Close");
+            contentDialog = new ContentMessageDialog($"Successfully deleted {cnt} {"task".putS(cnt)}.", title, "Close");
             await contentDialog.ShowAsync();
 
             static async System.Threading.Tasks.Task NothingToDelete()
@@ -156,7 +159,7 @@ namespace GGHS_Todo
                 return;
             }
             ReloadTasks();
-            ContentMessageDialog msg = new($"Successfully restored {result} {"item".PutS(result)}.", "Undo Delete");
+            ContentMessageDialog msg = new($"Successfully restored {result} {"item".putS(result)}.", "Undo Delete");
             await msg.ShowAsync();
         }
     }
