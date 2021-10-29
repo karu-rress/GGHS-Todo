@@ -13,28 +13,27 @@ namespace GGHS_Todo
     using Match = Predicate<Task>;
     public class TaskList : IEnumerable<Task>
     {
-        private List<Task> taskList = new();
-        public List<Task> List { get => taskList; }
-        private Stack<List<Task>> taskStack = new();
+        public List<Task> List { get; set; } = new();
 
-        public TaskList()
-        {
-        }
+        // Do not use => here. it means 'return new Stack<<<>>>'
+        private Stack<List<Task>> TaskStack { get; } = new();
 
-        public IEnumerator<Task> GetEnumerator() => taskList.GetEnumerator();
+        public TaskList() {  }
+
+        public IEnumerator<Task> GetEnumerator() => List.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public bool IsNullOrEmpty { get => taskList is null || !taskList.Any(); }
-        public int Count { get => taskList.Count; }
+        public bool IsNullOrEmpty => List is null || !List.Any();
+        public int Count => List.Count;
 
-        public int CountAll(Match? match) => match is null ? Count : taskList.FindAll(match).Count;
+        public int CountAll(Match? match) => match is null ? Count : List.FindAll(match).Count;
 
         /// <summary>
         /// Finds all that matches the Predicate of Task and return as List of Task
         /// </summary>
         /// <param name="match">Expression to find</param>
         /// <returns>List of Tasks. If match is null, then an empty List of Task</returns>
-        public List<Task> FindAll(Match? match) => match is null ? new List<Task>() : taskList.FindAll(match);
+        public List<Task> FindAll(Match? match) => match is null ? new() : List.FindAll(match);
 
         /// <summary>
         /// Remove all that matches the exprssion. If null is given, same to Clear()
@@ -47,45 +46,42 @@ namespace GGHS_Todo
 
             if (match is null)
             {
-                taskStack.Push(new(taskList));
-                taskList.Clear();
+                TaskStack.Push(new(List));
+                List.Clear();
                 return;
             }
 
-            // 이렇게 쓰는 거 아님. 이거 메서드 맨 앞으로.
-            // Contract.Requires(FindAll(match) is not null);
-
             var list = FindAll(match);
-            taskStack.Push(list);
-            taskList = taskList.Except(list).ToList();
+            TaskStack.Push(list);
+            List = List.Except(list).ToList();
         }
 
         public void Remove(in Task task)
         {
-            taskStack.Push(new() { task });
-            taskList.Remove(task);
+            TaskStack.Push(new() { task });
+            List.Remove(task);
         }
 
         public int Undo()
         {
-            if (taskStack.Count is 0)
+            if (TaskStack.Count is 0)
                 return 0;
 
-            var list = taskStack.Pop();
+            var list = TaskStack.Pop();
             if (list.Count is 0)
                 return 0;
-            taskList.AddRange(list);
-            Sort();
+
+            List.AddRange(list);
             return list.Count;
         }
 
-        public void Sort() => taskList.Sort((x, y) => x.DueDate.Value.CompareTo(y.DueDate.Value));
+        public void Sort() => List.Sort((x, y) => x.DueDate.CompareTo(y.DueDate));
 
-        public int FindIndex(Match? match) => taskList.FindIndex(match);
+        public int FindIndex(Match? match) => List.FindIndex(match);
 
-        public Task this[int i] { get => taskList[i]; set => taskList[i] = value; }
+        public Task this[int i] { get => List[i]; set => List[i] = value; }
 
-        public void Add(Task task) => taskList.Add(task);
+        public void Add(Task task) => List.Add(task);
 
     }
 }

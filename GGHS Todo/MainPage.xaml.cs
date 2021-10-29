@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel;
 using RollingRess;
 using Windows.UI.Xaml.Media.Animation;
-using System.Linq;
+using Thrd = System.Threading.Tasks;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 // Enables using record types as tuple-like types.
@@ -20,8 +20,6 @@ namespace System.Runtime.CompilerServices
 
 namespace GGHS_Todo
 {
-    public record Task(DateTime? DueDate, string Subject, string Title, string? Body);
-
     public enum Grades
     {
         Grade1,
@@ -30,14 +28,15 @@ namespace GGHS_Todo
         None,
     }
 
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         public static TaskList TaskList { get; set; } = new();
 
-        private static readonly PackageVersion version = Package.Current.Id.Version;
+        private static PackageVersion version => Package.Current.Id.Version;
+
+        /// <summary>
+        /// Shows the version of GGHS Todo, format in "X.X.X"
+        /// </summary>
         public static string Version => $"{version.Major}.{version.Minor}.{version.Build}";
 
         public static Grades Grade { get; set; } = Grades.None;
@@ -48,45 +47,74 @@ namespace GGHS_Todo
             LoadTasks();
         }
 
-        private enum TaskLoadType
-        {
-            Default,
-            OnlyToday,
-        }
-
-
         /// <summary>
         /// Adds task buttons to the grid.
         /// </summary>
-        private void LoadTasks(TaskLoadType loadType = TaskLoadType.Default)
+        private void LoadTasks()
         {
             if (TaskList.IsNullOrEmpty)
                 return;
 
             int buttons = 0;
-            List<Task> taskButtons = loadType switch
-            {
-                TaskLoadType.Default => TaskList.List,
-                TaskLoadType.OnlyToday => (from task in TaskList.List 
-                                           where task.DueDate?.Date == DateTime.Now.Date 
-                                           select task).ToList(),
-            };
-            foreach (var task in taskButtons)
+            foreach (var task in TaskList)
             {
                 TaskGrid.Children.Add(new TaskButton(task, TaskButton_Click, buttons++));
             }
         }
 
-        private void ReloadTasks(TaskLoadType loadType = TaskLoadType.Default)
+        /// <summary>
+        /// Removes all buttons in the grid and reload it.
+        /// </summary>
+        private void ReloadTasks()
         {
             TaskGrid.Children.Clear();
-            LoadTasks(loadType);
+            LoadTasks();
         }
 
-        private void AddButton_Click(object _, RoutedEventArgs e) => Frame.Navigate(typeof(AddPage), null, new DrillInNavigationTransitionInfo());
+        private void AddButton_Click(object _, RoutedEventArgs e) 
+            => Frame.Navigate(typeof(AddPage), null, new DrillInNavigationTransitionInfo());
+
+        private async Thrd.Task DeleteTasks(Predicate<Task>? match)
+        {
+            if (TaskList.IsNullOrEmpty)
+            {
+                await NothingToDelete();
+                return;
+            }
+            int cnt = TaskList.CountAll(match);
+            if (cnt is 0)
+            {
+                await NothingToDelete();
+                return;
+            }
+
+            const string title = "Delete";
+            ContentDialog contentDialog = new()
+            {
+                Content = $"Are you sure want to delete {cnt} {"task".PutS(cnt)}?",
+                Title = title,
+                CloseButtonText = "Cancel",
+                PrimaryButtonText = "Yes, delete",
+                DefaultButton = ContentDialogButton.Primary
+            };
+            if (await contentDialog.ShowAsync() is ContentDialogResult.None)
+                return;
+
+            TaskList.RemoveAll(match);
+
+            ReloadTasks();
+            contentDialog = new ContentMessageDialog($"Successfully deleted {cnt} {"task".PutS(cnt)}.", title, "Close");
+            await contentDialog.ShowAsync();
+
+            static async System.Threading.Tasks.Task NothingToDelete()
+            {
+                ContentMessageDialog message = new("Nothing to delete.", "Delete");
+                await message.ShowAsync();
+            }
+        }
 
         private async void DeletePastButton_Click(object _, RoutedEventArgs e)
-            => await DeleteTasks(x => x.DueDate.Value.Date < DateTime.Now.Date);
+            => await DeleteTasks(x => x.DueDate.Date < DateTime.Now.Date);
 
         private async void DeleteAllButton_Click(object _, RoutedEventArgs e) => await DeleteTasks(null);
 
@@ -97,7 +125,7 @@ namespace GGHS_Todo
                 return;
 
             var date = dialog.SelectedDate;
-            await DeleteTasks(x => x.DueDate is not null && x.DueDate.Value == date);
+            await DeleteTasks(x => x.DueDate == date);
         }
 
         private async void SelectSubject_Click(object _, RoutedEventArgs e)
@@ -114,7 +142,7 @@ namespace GGHS_Todo
             if (sender is TaskButton tb)
             {
                 AddPage.Task = tb.Task;
-                Frame.Navigate(typeof(AddPage), null, new DrillInNavigationTransitionInfo());
+                Frame.Navigate(typeof(AddPage));
             }
         }
 
@@ -128,20 +156,8 @@ namespace GGHS_Todo
                 return;
             }
             ReloadTasks();
-            ContentMessageDialog msg = new($"Successfully restored {result} {"item".putS(result)}.", "Undo Delete");
+            ContentMessageDialog msg = new($"Successfully restored {result} {"item".PutS(result)}.", "Undo Delete");
             await msg.ShowAsync();
-        }
-
-        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (TodayToggle.IsOn) // Today only
-            {
-                ReloadTasks(TaskLoadType.OnlyToday);
-            }
-            else
-            {
-                ReloadTasks(TaskLoadType.Default);
-            }
         }
     }
 }

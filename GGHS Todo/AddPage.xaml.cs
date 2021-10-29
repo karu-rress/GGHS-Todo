@@ -3,27 +3,15 @@
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Animation;
 using RollingRess;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+using Thrd = System.Threading.Tasks;
 
 namespace GGHS_Todo
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class AddPage : Page
     {
         public static Task? Task { get; set; } = null;
@@ -45,7 +33,7 @@ namespace GGHS_Todo
             "국제관계의 이해",
         };
 
-        public List<string> Grade2 => new()
+        public static List<string> Grade2 => new()
         {
             "독서",
             "수학Ⅱ",
@@ -68,7 +56,7 @@ namespace GGHS_Todo
             "공간 정보와 공간 분석",
         };
 
-        public List<string> Grade3 { get; } = new()
+        public static List<string> Grade3 => new()
         {
             "체육",
             "논리적 글쓰기",
@@ -86,7 +74,7 @@ namespace GGHS_Todo
             "윤리학 연습",
         };
 
-        public List<string> Subjects { get; } = new();
+        public List<string> Subjects { get; }
 
         public AddPage()
         {
@@ -94,6 +82,9 @@ namespace GGHS_Todo
 
             Subjects = Grade1.Concat(Grade2).Concat(Grade3).ToList();
             Subjects.Add("기타");
+
+            DueDatePicker.MinYear = DateTimeOffset.Now;
+            DueDatePicker.MaxYear = DateTimeOffset.Now.AddYears(2);
 
             GradeRadioButtons.SelectedIndex = MainPage.Grade switch
             {
@@ -107,10 +98,9 @@ namespace GGHS_Todo
 
             if (Task is not null) // Clicked a button
             {
-                InitializeComponent();
                 DeleteButton.Visibility = Visibility.Visible;
                 mainText.Text = "Modify Task";
-                DueDatePicker.Date = Task.DueDate.Value;
+                DueDatePicker.Date = Task.DueDate;
                 SubjectPicker.SelectedItem = Task.Subject;
                 TitleTextBox.Text = Task.Title;
                 if (Task.Body is not null)
@@ -127,14 +117,13 @@ namespace GGHS_Todo
                 return;
             }
 
-            var date = DueDatePicker.Date.DateTime;
-            Task task = new(new DateTime(date.Year, date.Month, date.Day), SubjectPicker.SelectedItem as string, TitleTextBox.Text, 
-                string.IsNullOrWhiteSpace(BodyTextBox.Text) ? null : BodyTextBox.IsNullOrWhiteSpace() ? null : BodyTextBox.Text);
+            DateTime date = DueDatePicker.Date.DateTime;
+            Task task = new(new(date.Year, date.Month, date.Day), SubjectPicker.GetSelectedString(), TitleTextBox.Text,
+                string.IsNullOrWhiteSpace(BodyTextBox.Text) || BodyTextBox.IsNullOrWhiteSpace() ? null : BodyTextBox.Text);
 
             if (Task is not null)
             {
-                int idx = MainPage.TaskList.FindIndex(x => x == Task);
-                MainPage.TaskList[idx] = task;
+                MainPage.TaskList[MainPage.TaskList.FindIndex(x => x == Task)] = task;
             }
             else
             {
@@ -146,7 +135,7 @@ namespace GGHS_Todo
 
         private void CancelButton_Click(object sender, RoutedEventArgs e) => Close();
 
-        private void Close() { Task = null; Frame.Navigate(typeof(MainPage), null, new Windows.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo()); }
+        private void Close() { Task = null; Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo()); }
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -157,8 +146,25 @@ namespace GGHS_Todo
                 return;
             }
 
-            await DeleteTask(TitleTextBox.Text, Task);
+            await DeleteTask(TitleTextBox.Text, Task!);
             Close();
+        }
+
+        public static async Thrd.Task DeleteTask(string taskName, Task task)
+        {
+            const string title = "Delete";
+            ContentDialog contentDialog = new()
+            {
+                Title = title,
+                Content = $"Are you sure want to delete '{taskName}'?",
+                PrimaryButtonText = "Yes",
+                DefaultButton = ContentDialogButton.Primary,
+                CloseButtonText = "No"
+            };
+            if (await contentDialog.ShowAsync() is not ContentDialogResult.Primary)
+                return;
+
+            MainPage.TaskList.Remove(task);
         }
 
         private bool Modified
@@ -167,8 +173,9 @@ namespace GGHS_Todo
             {
                 if (Task is null)
                     return false;
-                Task task = new(DueDatePicker.Date.DateTime, SubjectPicker.SelectedItem as string, TitleTextBox.Text,
-        string.IsNullOrWhiteSpace(BodyTextBox.Text) ? null : BodyTextBox.IsNullOrWhiteSpace() ? null : BodyTextBox.Text);
+
+                Task task = new(DueDatePicker.Date.DateTime, SubjectPicker.GetSelectedString(), TitleTextBox.Text,
+        string.IsNullOrWhiteSpace(BodyTextBox.Text) || BodyTextBox.IsNullOrWhiteSpace() ? null : BodyTextBox.Text);
                 return task != Task;
             }
         }
@@ -194,7 +201,7 @@ namespace GGHS_Todo
                         "Grade 1" => Grade1,
                         "Grade 2" => Grade2,
                         "Grade 3" => Grade3,
-                        _ => throw new Exception($"rb.SelectedItem: expected \"Grade 1-3\", but given {str}."),
+                        _ => throw new Exception($@"rb.SelectedItem: expected ""Grade 1-3"", but given {str}."),
                     };
                     if (list.Contains("기타") is false)
                         list.Add("기타");

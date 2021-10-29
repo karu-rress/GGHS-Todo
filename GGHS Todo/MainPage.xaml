@@ -56,7 +56,6 @@
             <Button x:Name="UndoButton" Margin="0,330,0,0" Click="UndoButton_Click" CornerRadius="0,0,10,10" Height="50">
                 <TextBlock><Run Text="&#xE7A7;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Undo Delete"/></TextBlock>
             </Button>
-            <ToggleSwitch x:Name="TodayToggle" Header="Today's tasks only" Margin="0,464,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="21" Toggled="ToggleSwitch_Toggled"/>
         </Grid>
         <ScrollViewer Margin="325,185,45,10">
             <Grid x:Name="TaskGrid"/>

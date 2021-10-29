@@ -28,8 +28,8 @@ namespace GGHS_Todo
      */
     public class TaskButton : Button
     {
-        private const int buttonWidth = 2560;
-        private const int buttonHeight = 93;
+        private int ButtonWidth => 2560;
+        private int ButtonHeight => 93;
 
         public Task Task { get; private set; }
 
@@ -37,12 +37,12 @@ namespace GGHS_Todo
         {
             Task = task;
             Click += TaskButton_Click;
-            Height = buttonHeight;
-            Margin = new(0, 98 * buttons, 0, 0);
-            VerticalAlignment = VerticalAlignment.Top;
-            CornerRadius = new(10);
             RightTapped += TaskButton_RightTapped;
-
+            Height = ButtonHeight;
+            Margin = new(0, 98 * buttons, 0, 0);
+            CornerRadius = new(10);
+            VerticalAlignment = VerticalAlignment.Top;
+            
             CreateGrid(out Grid inner, out Grid dday, out Grid outter);
             CreateDdayTextBlock(out TextBlock tb1, out TextBlock tb2);
             dday.Children.Add(tb1);
@@ -65,20 +65,13 @@ namespace GGHS_Todo
             if (sender is UIElement uiElem)
             {
                 MenuFlyout btnFlyOut = new();
-                MenuFlyoutItem edit = new()
-                {
-                    Text = "Edit",
-                    Icon = new SymbolIcon(Symbol.Edit),
-                };
+                MenuFlyoutItem edit = new() { Text = "Edit", Icon = new SymbolIcon(Symbol.Edit) };
+                MenuFlyoutItem delete = new() { Text = "Delete", Icon = new SymbolIcon(Symbol.Delete) };
+
                 edit.Click += (_, e) => {
                     AddPage.Task = Task;
                     if (Window.Current.Content is Frame rootFrame)
-                        rootFrame.Navigate(typeof(AddPage));
-                };
-                MenuFlyoutItem delete = new()
-                {
-                    Text = "Delete",
-                    Icon = new SymbolIcon(Symbol.Delete)
+                        rootFrame.Navigate(typeof(AddPage), null, new Windows.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo());
                 };
                 delete.Click += async (_, e) =>
                 {
@@ -87,7 +80,7 @@ namespace GGHS_Todo
                     if (Window.Current.Content is Frame rootFrame)
                     {
                         // TODO: 이걸 그냥 MainPage의 Reload Task..?
-                        rootFrame.Navigate(typeof(MainPage));
+                        rootFrame.Navigate(typeof(MainPage), null, new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
                     }
                 };
                 
@@ -132,28 +125,23 @@ namespace GGHS_Todo
 
         private void CreateDdayTextBlock(out TextBlock tb1, out TextBlock tb2)
         {
-            bool hasNoDueDay = !Task.DueDate.HasValue;
             tb1 = new()
             {
                 FontSize = 19,
-                Text = hasNoDueDay ? null : Task.DueDate?.ToString("MM/dd"),
+                Text = Task.DueDate.ToString("MM/dd"),
                 Margin = new(0, 10, 0, 46),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 FontFamily = new("Segoe"),
                 FontWeight = FontWeights.Bold
             };
 
-            string? text = null;
-            if (Task.DueDate is not null)
+            var now = DateTime.Now;
+            int days = (new DateTime(now.Year, now.Month, now.Day) - Task.DueDate).Days;
+            string text = "D" + days switch
             {
-                var now = DateTime.Now;
-                int days = (new DateTime(now.Year, now.Month, now.Day) - Task.DueDate.Value).Days;
-                text = "D" + days switch
-                {
-                    0 => "-Day",
-                    _ => days.ToString("+0;-0"),
-                };
-            }
+                0 => "-Day",
+                _ => days.ToString("+0;-0"),
+            };
 
             tb2 = new()
             {
@@ -173,7 +161,7 @@ namespace GGHS_Todo
                 FontSize = 17,
                 Text = Task.Subject,
                 Margin = new(80, 12, 0, 44),
-                Width = buttonWidth
+                Width = ButtonWidth
             };
             tb4 = new()
             {
@@ -181,7 +169,7 @@ namespace GGHS_Todo
                 Text = Task.Title,
                 Margin = new(80, 43, 0, 13),
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Width = buttonWidth,
+                Width = ButtonWidth,
                 Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xA0, 0xA0, 0xA0))
             };
         }
