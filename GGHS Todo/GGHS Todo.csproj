@@ -19,12 +19,12 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>
-    </PackageCertificateThumbprint>
-    <PackageCertificateKeyFile>GGHS Todo_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>104B5B16BCAC61F9F4D3C66038DC43504C6E4EA4</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>
+    </PackageCertificateKeyFile>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
@@ -137,7 +137,6 @@
       <DependentUpon>DateSelectDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Exception.cs" />
-    <Compile Include="Extension.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -247,7 +246,7 @@
     <None Include="GGHS Todo_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\RollingUWP\RollingUWP\RollingUWP.csproj">
+    <ProjectReference Include="..\..\RollingUWP\RollingUWP\RollingUWP.csproj">
       <Project>{539d1184-789f-4991-b760-8978e95f6052}</Project>
       <Name>RollingUWP</Name>
     </ProjectReference>

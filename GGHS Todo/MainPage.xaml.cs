@@ -19,9 +19,21 @@ namespace System.Runtime.CompilerServices
 
 namespace GGHS_Todo
 {
-    public record Task(DateTime DueDate, string Subject, string Title, string? Body)
+    public class Task
     {
         public Task() : this(DateTime.Now, "", "", null) { }
+        public Task(DateTime dueDate, string subject, string title, string? body)
+        {
+            DueDate = dueDate;
+            Subject = subject;
+            Title = title;
+            Body = body;
+        }
+
+        public DateTime DueDate { get; set; }
+        public string Subject { get; set; }
+        public string Title { get; set; }
+        public string? Body { get; set; }
     }
 
     public enum Grades
@@ -94,7 +106,7 @@ namespace GGHS_Todo
             const string title = "Delete";
             ContentDialog contentDialog = new()
             {
-                Content = $"Are you sure want to delete {cnt} {"task".putS(cnt)}?",
+                Content = $"Are you sure want to delete {cnt} {"task".PutS(cnt)}?",
                 Title = title,
                 CloseButtonText = "Cancel",
                 PrimaryButtonText = "Yes, delete",
@@ -106,7 +118,7 @@ namespace GGHS_Todo
             TaskList.RemoveAll(match);
 
             ReloadTasks();
-            contentDialog = new ContentMessageDialog($"Successfully deleted {cnt} {"task".putS(cnt)}.", title, "Close");
+            contentDialog = new ContentMessageDialog($"Successfully deleted {cnt} {"task".PutS(cnt)}.", title, "Close");
             await contentDialog.ShowAsync();
 
             static async System.Threading.Tasks.Task NothingToDelete()
@@ -159,7 +171,7 @@ namespace GGHS_Todo
                 return;
             }
             ReloadTasks();
-            ContentMessageDialog msg = new($"Successfully restored {result} {"item".putS(result)}.", "Undo Delete");
+            ContentMessageDialog msg = new($"Successfully restored {result} {"item".PutS(result)}.", "Undo Delete");
             await msg.ShowAsync();
         }
     }
