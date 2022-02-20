@@ -19,23 +19,6 @@ namespace System.Runtime.CompilerServices
 
 namespace GGHS_Todo
 {
-    public class Task
-    {
-        public Task() : this(DateTime.Now, "", "", null) { }
-        public Task(DateTime dueDate, string subject, string title, string? body)
-        {
-            DueDate = dueDate;
-            Subject = subject;
-            Title = title;
-            Body = body;
-        }
-
-        public DateTime DueDate { get; set; }
-        public string Subject { get; set; }
-        public string Title { get; set; }
-        public string? Body { get; set; }
-    }
-
     public enum Grades
     {
         Grade1,
@@ -89,7 +72,7 @@ namespace GGHS_Todo
 
         private void AddButton_Click(object _, RoutedEventArgs e) => Frame.Navigate(typeof(AddPage), null, new DrillInNavigationTransitionInfo());
 
-        private async System.Threading.Tasks.Task DeleteTasks(Predicate<Task>? match)
+        private async System.Threading.Tasks.Task DeleteTasks(Predicate<TodoTask>? match)
         {
             if (TaskList.IsNullOrEmpty)
             {

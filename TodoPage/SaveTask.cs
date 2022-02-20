@@ -11,12 +11,12 @@ namespace GGHS_Todo
 {
     public static class SaveTask
     {
-        private static string FileName => "TodoXML.tks";
+        private static string FileName => "Todo2XML.tks";
         private static StorageFolder storageFolder => ApplicationData.Current.LocalFolder;
 
         public static async System.Threading.Tasks.Task Save()
         {
-            DataWriter<List<Task>> writer = new(FileName, MainPage.TaskList.List);
+            DataWriter<List<TodoTask>> writer = new(FileName, MainPage.TaskList.List);
             await writer.WriteAsync();
 
             // 디버그 해볼것... 지금 파일 생성이 안 됨...
@@ -27,7 +27,7 @@ namespace GGHS_Todo
             if (await storageFolder.TryGetItemAsync(FileName) is not StorageFile)
                 return;
 
-            DataReader<List<Task>> reader = new(FileName);
+            DataReader<List<TodoTask>> reader = new(FileName);
             MainPage.TaskList.List = await reader.ReadAsync();
         }
     }

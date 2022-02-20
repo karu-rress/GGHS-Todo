@@ -25,15 +25,15 @@ namespace GGHS_Todo
         <TextBlock Text="&#xE76C;" FontFamily="Segoe MDL2 Assets" Width="17" VerticalAlignment="Center"  FontSize="17" Foreground="#ff727272" Margin="0,0,10,0" HorizontalAlignment="Right"/>
     </Grid>
 </Button>
-     */
+     */ 
     public class TaskButton : Button
     {
         private int ButtonWidth => 2560;
         private int ButtonHeight => 93;
 
-        public Task Task { get; private set; }
+        public TodoTask Task { get; private set; }
 
-        public TaskButton(in Task task, RoutedEventHandler TaskButton_Click, int buttons)
+        public TaskButton(in TodoTask task, RoutedEventHandler TaskButton_Click, int buttons)
         {
             Task = task;
             Click += TaskButton_Click;

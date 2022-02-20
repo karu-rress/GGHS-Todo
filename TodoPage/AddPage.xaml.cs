@@ -13,7 +13,7 @@ namespace GGHS_Todo
 {
     public sealed partial class AddPage : Page
     {
-        public static Task? Task { get; set; } = null;
+        public static TodoTask? Task { get; set; } = null;
         public static List<string> Grade1 => new()
         {
             "국어",
@@ -34,41 +34,47 @@ namespace GGHS_Todo
 
         public static List<string> Grade2 => new()
         {
-            "독서",
-            "수학Ⅱ",
+            "문학",
+            "수학Ⅰ",
             "수학과제탐구",
-            "과학사",
-            "생활과 과학",
+            "경제",
+            "세계사",
+            "세계지리",
+            "정치와 법",
+            "동아시아사",
+            "한국지리",
+            "사회/문화",
+            "생활과 윤리",
+            "윤리와 사상",
+            "물리학Ⅰ",
+            "화학Ⅰ",
+            "생명과학Ⅰ",
             "운동과 건강",
             "창의적문제해결기법",
             "스페인어Ⅰ",
             "중국어Ⅰ",
             "일본어Ⅰ",
-            "심화영어Ⅰ",
-            "국제경제",
-            "국제정치",
-            "비교문화",
-            "동양근대사",
-            "세계 역사와 문화",
-            "현대정치철학의 이해",
-            "세계 지역 연구",
-            "공간 정보와 공간 분석",
+            "비판적 영어 글쓰기와 말하기",
         };
 
         public static List<string> Grade3 => new()
         {
+            "언어와 매체",
+            "화법과 작문",
+            "확률과 통계",
+            "미적분",
+            "영미 문학 읽기",
+            "동아시아사",
+            "한국지리",
+            "사회/문화",
             "체육",
-            "논리적 글쓰기",
             "스페인어권 문화",
             "일본문화",
             "중국문화",
-            "심화영어독해Ⅱ",
+            "심화영어Ⅱ",
             "독서와 의사소통",
-            "국제화시대의 한국어",
-            "사회탐구방법",
-            "한국사회의 이해",
-            "통계로 바라보는 국제문제",
-            "국제법",
+            "사회 탐구 방법",
+            "한국 사회의 이해",
             "세계 문제와 미래사회",
             "윤리학 연습",
         };
@@ -79,7 +85,7 @@ namespace GGHS_Todo
         {
             InitializeComponent();
 
-            Subjects = Grade1.Concat(Grade2).Concat(Grade3).ToList();
+            Subjects = Grade1.Concat(Grade2).Concat(Grade3).Distinct().ToList();
             Subjects.Add("기타");
 
             GradeRadioButtons.SelectedIndex = MainPage.Grade switch
@@ -115,7 +121,7 @@ namespace GGHS_Todo
             }
 
             var date = DueDatePicker.Date.DateTime;
-            Task task = new(new(date.Year, date.Month, date.Day), SubjectPicker.SelectedItem as string, TitleTextBox.Text, 
+            TodoTask task = new(new(date.Year, date.Month, date.Day), SubjectPicker.SelectedItem as string, TitleTextBox.Text, 
                 string.IsNullOrWhiteSpace(BodyTextBox.Text) ? null : BodyTextBox.IsNullOrWhiteSpace() ? null : BodyTextBox.Text);
 
             if (Task is not null)
@@ -148,7 +154,7 @@ namespace GGHS_Todo
             Close();
         }
 
-        public static async System.Threading.Tasks.Task DeleteTask(string taskName, Task task)
+        public static async System.Threading.Tasks.Task DeleteTask(string taskName, TodoTask task)
         {
             const string title = "Delete";
             ContentDialog contentDialog = new()
@@ -171,7 +177,7 @@ namespace GGHS_Todo
             {
                 if (Task is null)
                     return false;
-                Task task = new(DueDatePicker.Date.DateTime, SubjectPicker.SelectedItem as string, TitleTextBox.Text,
+                TodoTask task = new(DueDatePicker.Date.DateTime, SubjectPicker.SelectedItem as string, TitleTextBox.Text,
         string.IsNullOrWhiteSpace(BodyTextBox.Text) ? null : BodyTextBox.IsNullOrWhiteSpace() ? null : BodyTextBox.Text);
                 return task != Task;
             }

@@ -60,7 +60,6 @@
         <ScrollViewer Margin="325,185,45,10">
             <Grid x:Name="TaskGrid"/>
         </ScrollViewer>
-        <TextBlock Margin="1136,138,0,908" FontSize="20" Text="Right-click a task to delete it" Foreground="#ff555555" Width="303" HorizontalAlignment="Left"/>
     </Grid>
 </Page>
 

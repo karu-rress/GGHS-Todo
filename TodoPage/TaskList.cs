@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace GGHS_Todo
 {
-    using Match = Predicate<Task>;
-    public class TaskList : IEnumerable<Task>
+    using Match = Predicate<TodoTask>;
+    public class TaskList : IEnumerable<TodoTask>
     {
-        public List<Task> List { get; set; } = new();
-        private Stack<List<Task>> TaskStack => new();
+        public List<TodoTask> List { get; set; } = new();
+        private Stack<List<TodoTask>> TaskStack => new();
 
         public TaskList()
         {
         }
 
-        public IEnumerator<Task> GetEnumerator() => List.GetEnumerator();
+        public IEnumerator<TodoTask> GetEnumerator() => List.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public bool IsNullOrEmpty { get => List is null || !List.Any(); }
@@ -33,7 +33,7 @@ namespace GGHS_Todo
         /// </summary>
         /// <param name="match">Expression to find</param>
         /// <returns>List of Tasks. If match is null, then an empty List of Task</returns>
-        public List<Task> FindAll(Match? match) => match is null ? new() : List.FindAll(match);
+        public List<TodoTask> FindAll(Match? match) => match is null ? new() : List.FindAll(match);
 
         /// <summary>
         /// Remove all that matches the exprssion. If null is given, same to Clear()
@@ -56,7 +56,7 @@ namespace GGHS_Todo
             List = List.Except(list).ToList();
         }
 
-        public void Remove(in Task task)
+        public void Remove(in TodoTask task)
         {
             TaskStack.Push(new() { task });
             List.Remove(task);
@@ -79,9 +79,9 @@ namespace GGHS_Todo
 
         public int FindIndex(Match? match) => List.FindIndex(match);
 
-        public Task this[int i] { get => List[i]; set => List[i] = value; }
+        public TodoTask this[int i] { get => List[i]; set => List[i] = value; }
 
-        public void Add(Task task) => List.Add(task);
+        public void Add(TodoTask task) => List.Add(task);
 
     }
 }
