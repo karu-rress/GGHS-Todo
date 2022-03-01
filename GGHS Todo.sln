@@ -14,8 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RollingUWP", "..\..\..\Libr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RollingNET", "..\..\..\Library\RollingNet\RollingNet\RollingNET.csproj", "{3ABAA63B-955D-4070-8004-670AD7DCA16C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoPage", "TodoPage\TodoPage.csproj", "{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,26 +94,6 @@ Global
 		{3ABAA63B-955D-4070-8004-670AD7DCA16C}.Release|x64.Build.0 = Release|Any CPU
 		{3ABAA63B-955D-4070-8004-670AD7DCA16C}.Release|x86.ActiveCfg = Release|Any CPU
 		{3ABAA63B-955D-4070-8004-670AD7DCA16C}.Release|x86.Build.0 = Release|Any CPU
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Debug|ARM.ActiveCfg = Debug|ARM
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Debug|ARM.Build.0 = Debug|ARM
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Debug|ARM64.Build.0 = Debug|ARM64
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Debug|x64.ActiveCfg = Debug|x64
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Debug|x64.Build.0 = Debug|x64
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Debug|x86.ActiveCfg = Debug|x86
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Debug|x86.Build.0 = Debug|x86
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Release|ARM.ActiveCfg = Release|ARM
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Release|ARM.Build.0 = Release|ARM
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Release|ARM64.ActiveCfg = Release|ARM64
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Release|ARM64.Build.0 = Release|ARM64
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Release|x64.ActiveCfg = Release|x64
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Release|x64.Build.0 = Release|x64
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Release|x86.ActiveCfg = Release|x86
-		{247DE9A7-0341-4DB3-8FFF-B9D2A36E84CA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

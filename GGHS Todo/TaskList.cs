@@ -5,20 +5,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GGHS_Todo
 {
     using Match = Predicate<TodoTask>;
+
+    [DataContract(Name = "Tasks")]
     public class TaskList : IEnumerable<TodoTask>
     {
+        [DataMember]
         public List<TodoTask> List { get; set; } = new();
-        private Stack<List<TodoTask>> TaskStack => new();
+        private static Stack<List<TodoTask>> TaskStack { get; } = new();
 
-        public TaskList()
-        {
-        }
+        public TaskList() { }
 
         public IEnumerator<TodoTask> GetEnumerator() => List.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

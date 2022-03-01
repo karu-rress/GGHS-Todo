@@ -1,4 +1,5 @@
 ﻿#nullable enable
+global using static RollingRess.StaticClass;
 
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel;
 using RollingRess;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 // Enables using record types as tuple-like types.
@@ -45,7 +49,14 @@ namespace GGHS_Todo
 
         public MainPage()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+            
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            Window.Current.SetTitleBar(AppTitleBar);
+            
             LoadTasks();
         }
 
@@ -57,11 +68,8 @@ namespace GGHS_Todo
             if (TaskList.IsNullOrEmpty)
                 return;
 
-            int buttons = 0;
             foreach (var task in TaskList)
-            {
-                TaskGrid.Children.Add(new TaskButton(task, TaskButton_Click, buttons++));
-            }
+                TaskGrid.Children.Add(new TaskButton(task, TaskButton_Click));
         }
 
         private void ReloadTasks()
@@ -101,13 +109,11 @@ namespace GGHS_Todo
             TaskList.RemoveAll(match);
 
             ReloadTasks();
-            contentDialog = new ContentMessageDialog($"Successfully deleted {cnt} {"task".PutS(cnt)}.", title, "Close");
-            await contentDialog.ShowAsync();
+            await ShowMessageAsync($"Successfully deleted {cnt} {"task".PutS(cnt)}.", title);
 
             static async System.Threading.Tasks.Task NothingToDelete()
             {
-                ContentMessageDialog message = new("Nothing to delete.", "Delete");
-                await message.ShowAsync();
+                await ShowMessageAsync("Nothing to delete.", "Delete");
             }
         }
 
@@ -149,13 +155,11 @@ namespace GGHS_Todo
             int result = TaskList.Undo();
             if (result is 0)
             {
-                var message = new ContentMessageDialog("Nothing to restore.", "Undo Delete");
-                await message.ShowAsync();
+                await ShowMessageAsync("Nothing to restore.", "Undo Delete");
                 return;
             }
             ReloadTasks();
-            ContentMessageDialog msg = new($"Successfully restored {result} {"item".PutS(result)}.", "Undo Delete");
-            await msg.ShowAsync();
+            await ShowMessageAsync($"Successfully restored {result} {"item".PutS(result)}.", "Undo Delete");
         }
     }
 }

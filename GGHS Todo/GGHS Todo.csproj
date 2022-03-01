@@ -127,11 +127,27 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AddPage.xaml.cs">
+      <DependentUpon>AddPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DateSelectDialog.xaml.cs">
+      <DependentUpon>DateSelectDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Exception.cs" />
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveTask.cs" />
+    <Compile Include="SubjectSelectDialog.xaml.cs">
+      <DependentUpon>SubjectSelectDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TaskButton.cs" />
+    <Compile Include="TaskList.cs" />
+    <Compile Include="TodoTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\LargeTile.scale-100.png" />
@@ -205,13 +221,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Library\RollingNet\RollingNet\RollingNET.csproj">
+      <Project>{3abaa63b-955d-4070-8004-670ad7dca16c}</Project>
+      <Name>RollingNET</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Library\RollingUWP\RollingUWP\RollingUWP.csproj">
       <Project>{539d1184-789f-4991-b760-8978e95f6052}</Project>
       <Name>RollingUWP</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TodoPage\TodoPage.csproj">
-      <Project>{247de9a7-0341-4db3-8fff-b9d2a36e84ca}</Project>
-      <Name>TodoPage</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -220,7 +236,26 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\segoefluent.ttf" />
     <None Include="GGHS Todo_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="AddPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DateSelectDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SubjectSelectDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

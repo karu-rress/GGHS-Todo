@@ -33,13 +33,13 @@ namespace GGHS_Todo
 
         public TodoTask Task { get; private set; }
 
-        public TaskButton(in TodoTask task, RoutedEventHandler TaskButton_Click, int buttons)
+        public TaskButton(in TodoTask task, RoutedEventHandler TaskButton_Click)
         {
             Task = task;
             Click += TaskButton_Click;
             RightTapped += TaskButton_RightTapped;
             Height = ButtonHeight;
-            Margin = new(0, 98 * buttons, 0, 0);
+            Margin = new(0, 0, 0, 5);
             CornerRadius = new(10);
             VerticalAlignment = VerticalAlignment.Top;
             
@@ -56,6 +56,14 @@ namespace GGHS_Todo
             CreateArrowTextBlock(out TextBlock arrow);
             outter.Children.Add(inner);
             outter.Children.Add(arrow);
+
+            var uiSettings = new Windows.UI.ViewManagement.UISettings();
+            var rgba = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Accent);
+            if (Task.DueDate.Date == DateTime.Now.Date)
+            {
+                BorderThickness = new(2.6);
+                BorderBrush = new SolidColorBrush(rgba);
+            }
 
             Content = outter;
         }
@@ -95,8 +103,8 @@ namespace GGHS_Todo
         {
             arrow = new()
             {
-                Text = "\xE76C",
-                FontFamily = new("Segoe MDL2 Assets"),
+                Text = "\xE971",
+                FontFamily = new("ms-appx:///Assets/segoefluent.ttf#Segoe Fluent Icons"),
                 FontSize = 17,
                 Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x72, 0x72, 0x72)),
                 VerticalAlignment = VerticalAlignment.Center,

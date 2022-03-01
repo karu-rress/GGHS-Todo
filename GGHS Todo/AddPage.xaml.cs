@@ -115,8 +115,7 @@ namespace GGHS_Todo
         {
             if (DueDatePicker.SelectedDate is null || SubjectPicker.SelectedIndex is -1 || TitleTextBox.IsNullOrWhiteSpace())
             {
-                ContentMessageDialog content = new("Date, subject and title are required.", "Error");
-                await content.ShowAsync();
+                await ShowMessageAsync("Date, subject and title are required.", "Error");
                 return;
             }
 
@@ -145,8 +144,7 @@ namespace GGHS_Todo
         {
             if (Modified)
             {
-                ContentMessageDialog content = new("This task has been modified. Save or discard changes and try again.", "Couldn't delete");
-                await content.ShowAsync();
+                await ShowMessageAsync("This task has been modified. Save or discard changes and try again.", "Couldn't delete");
                 return;
             }
 
