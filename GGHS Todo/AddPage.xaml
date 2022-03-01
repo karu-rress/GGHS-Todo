@@ -7,7 +7,11 @@
     xmlns:Custom="using:Microsoft.UI.Xaml.Controls"
     x:Class="GGHS_Todo.AddPage"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
+    <Page.Resources>
+        <FontFamily x:Key="iconFont">ms-appx:///Assets/segoefluent.ttf#Segoe Fluent Icons</FontFamily>
+    </Page.Resources>
 
     <Grid>
         <Grid.Resources>
@@ -18,7 +22,21 @@
                 <Setter Property="TextWrapping" Value="Wrap" />
             </Style>
         </Grid.Resources>
-        <Grid Margin="177,65,0,0" HorizontalAlignment="Left" Width="469" Height="118" VerticalAlignment="Top">
+        <Border x:Name="AppTitleBar"
+                IsHitTestVisible="True" VerticalAlignment="Top" Background="Transparent"
+                Height="32" Margin="18,4,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,1,0,-1">
+                <Image x:Name="AppFontIcon"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Source="Assets/Square44x44Logo.png" 
+                    Width="26" Height="26"/>
+                <TextBlock x:Name="AppTitle"
+                    Text="Add New Task" VerticalAlignment="Center"
+                    Margin="10,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" />
+            </StackPanel>
+        </Border>
+
+        <Grid Margin="55,65,0,0" HorizontalAlignment="Left" Width="469" Height="118" VerticalAlignment="Top">
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -28,10 +46,10 @@
                 </Style>
             </Grid.Resources>
             <TextBlock x:Name="mainText" Text="Add New Task" FontSize="55" Height="73" />
-            <TextBlock x:Name="mainText2" Text="GGHS Todo Preview" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0" FontFamily="Assets/ZegoeLight-U.ttf#Segoe"/>
+            <TextBlock x:Name="mainText2" Text="GGHS Todo" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0" FontFamily="Assets/ZegoeLight-U.ttf#Segoe"/>
         </Grid>
 
-        <Grid Margin="25,232,330,0" Height="80" VerticalAlignment="Top">
+        <Grid Margin="55,204,330,0" Height="80" VerticalAlignment="Top">
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -41,23 +59,25 @@
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="32*" />
-                <ColumnDefinition Width="305" />
-                <ColumnDefinition Width="25*" />
-                <ColumnDefinition Width="54*" />
-                <ColumnDefinition Width="23*" />
-                <ColumnDefinition Width="113*" />
+                <ColumnDefinition Width="53" />
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="74*" />
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="114*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Due date" />
-            <DatePicker x:Name="DueDatePicker" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Width="300" />
-            <TextBlock Text="Subject" Grid.Column="2" />
+            <TextBlock Text="Due" Height="34" HorizontalAlignment="Center" Width="auto" />
+            <Viewbox MaxHeight="47" MaxWidth="300"  Stretch="Fill" Grid.Column="1" HorizontalAlignment="Center" Width="250" Height="43" VerticalAlignment="Center" >
+                <DatePicker x:Name="DueDatePicker" FontSize="23" />
+            </Viewbox>
+            <TextBlock Text="Subject" Grid.Column="2" Height="34" Width="76" />
             <ComboBox x:Name="SubjectPicker" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="21" ItemsSource="{x:Bind Subjects}" Height="45"/>
-            <TextBlock Text="Title" Grid.Column="4" />
-            <TextBox x:Name="TitleTextBox" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="45" FontSize="23" />
+            <TextBlock Text="Title" Grid.Column="4" Height="34" Width="43" />
+            <TextBox x:Name="TitleTextBox" Grid.Column="5" VerticalAlignment="Center" Height="45" FontSize="23" />
         </Grid>
-        <TextBlock Text="Memo (optional)" FontFamily="Assets/ZegoeLight-U.ttf#Segoe" FontSize="25" Margin="58,323,0,0" HorizontalAlignment="Left" Width="183" Height="41" VerticalAlignment="Top"/>
-        <TextBox x:Name="BodyTextBox" Margin="50,375,330,30" AcceptsReturn="True" FontSize="23"/>
-        <Grid Width="315" HorizontalAlignment="Right" Margin="0,205,10,10">
+        <TextBlock Text="Memo (optional)" FontFamily="Assets/ZegoeLight-U.ttf#Segoe" FontSize="25" Margin="62,303,0,0" HorizontalAlignment="Left" Width="183" Height="41" VerticalAlignment="Top"/>
+        <TextBox x:Name="BodyTextBox" Margin="55,370,330,35" AcceptsReturn="True" FontSize="23"/>
+        <Grid Width="215" HorizontalAlignment="Right" Margin="0,100,55,10">
             <Grid.Resources>
                 <Style TargetType="Button">
                     <Setter Property="CornerRadius" Value="10" />
@@ -73,16 +93,16 @@
                 </Style>
             </Grid.Resources>
             <Button x:Name="SaveButton" Margin="0,115,0,0" Click="SaveButton_Click">
-                <TextBlock><Run Text="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Save"/></TextBlock>
+                <TextBlock><Run Text="&#xE74E;" FontFamily="{StaticResource iconFont}" FontSize="21"/><Run Text=" Save"/></TextBlock>
             </Button>
             <Button x:Name="CancelButton" Margin="0,280,0,0" Click="CancelButton_Click">
-                <TextBlock><Run Text="&#xE711;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Cancel"/></TextBlock>
+                <TextBlock><Run Text="&#xE711;" FontFamily="{StaticResource iconFont}" FontSize="21"/><Run Text=" Cancel"/></TextBlock>
             </Button>
             <Button x:Name="DeleteButton" Margin="0,445,0,0" Click="DeleteButton_Click" Visibility="Collapsed">
-                <TextBlock><Run Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Delete"/></TextBlock>
+                <TextBlock><Run Text="&#xE74D;" FontFamily="{StaticResource iconFont}" FontSize="21"/><Run Text=" Delete"/></TextBlock>
             </Button>
         </Grid>
-        <Custom:RadioButtons Margin="-350,311,0,0" VerticalAlignment="Top" Height="45" MaxColumns="3" SelectedIndex="-1" SelectionChanged="RadioButtons_SelectionChanged" HorizontalAlignment="Center" Width="385">
+        <Custom:RadioButtons x:Name="GradeRadioButtons" Margin="281,299,0,0" VerticalAlignment="Top" Height="45" MaxColumns="3" SelectedIndex="-1" SelectionChanged="RadioButtons_SelectionChanged" HorizontalAlignment="Left" Width="385">
             <x:String>Grade 1</x:String>
             <x:String>Grade 2</x:String>
             <x:String>Grade 3</x:String>

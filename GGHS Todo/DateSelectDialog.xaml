@@ -1,0 +1,21 @@
+﻿<ContentDialog
+    x:Class="GGHS_Todo.DateSelectDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GGHS_Todo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Select a date to delete all"
+    PrimaryButtonText="Delete"
+   CloseButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    CornerRadius="10"
+    DefaultButton="Primary"
+    >
+
+    <Grid Height="50">
+        <DatePicker x:Name="datePicker" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock" Text="Please select a date." HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Collapsed"></TextBlock>
+    </Grid>
+</ContentDialog>

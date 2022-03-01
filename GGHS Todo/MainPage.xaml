@@ -6,10 +6,27 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
+    <Page.Resources>
+        <FontFamily x:Key="iconFont">ms-appx:///Assets/segoefluent.ttf#Segoe Fluent Icons</FontFamily>
+    </Page.Resources>
 
     <Grid>
-        <Grid Margin="177,65,0,0" HorizontalAlignment="Left" Width="553" Height="118" VerticalAlignment="Top">
+        <Border x:Name="AppTitleBar"
+                IsHitTestVisible="True" VerticalAlignment="Top" Background="Transparent"
+                Height="32" Margin="18,4,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,1,0,-1">
+                <Image x:Name="AppFontIcon"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Source="Assets/Square44x44Logo.png" 
+                    Width="26" Height="26"/>
+                <TextBlock x:Name="AppTitle"
+                    Text="GGHS Todo" VerticalAlignment="Center"
+                    Margin="10,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" />
+            </StackPanel>
+        </Border>
+        <Grid Margin="61,53,0,0" HorizontalAlignment="Left" Width="381" Height="118" VerticalAlignment="Top">
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -18,10 +35,16 @@
                     <Setter Property="FontFamily" Value="Assets/ZegoeLight-U.ttf#Segoe" />
                 </Style>
             </Grid.Resources>
-            <TextBlock x:Name="mainText" Text="GGHS Todo Preview 2" FontSize="55" Height="73" FontWeight="Bold" Width="529"/>
-            <TextBlock x:Name="mainText2" Text="Don't forget any of your tasks" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160*"/>
+                <ColumnDefinition Width="221*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <TextBlock x:Name="mainText" Text="GGHS Todo" FontSize="55" Height="73" FontWeight="Bold" Width="300" Grid.ColumnSpan="2"/>
+            <TextBlock x:Name="mainText2" Text="Don't forget any of your tasks" FontSize="30" Width="372" Foreground="#FF444444" Margin="0,77,0,0" Grid.ColumnSpan="2"/>
         </Grid>
-        <Grid Margin="10,205,0,10" HorizontalAlignment="Left" Width="315">
+        <Grid Margin="0,210,55,35" HorizontalAlignment="Right" Width="215">
             <Grid.Resources>
                 <Style TargetType="Button">
                     <Setter Property="CornerRadius" Value="10" />
@@ -36,17 +59,29 @@
                     <Setter Property="HorizontalAlignment" Value="Center"/>
                 </Style>
             </Grid.Resources>
-            <Button x:Name="AddButton" Margin="0,115,0,0" Click="AddButton_Click">
-                <TextBlock><Run Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Add New"/></TextBlock>
+            <Button x:Name="AddButton" Margin="0,0,0,0" Click="AddButton_Click">
+                <TextBlock><Run Text="&#xE710;" FontFamily="{StaticResource iconFont}" FontSize="21"/><Run Text=" Add New"/></TextBlock>
             </Button>
-            <TextBlock Margin="0,200,0,638" FontSize="18" Text="Add new task" Foreground="#ff555555"/>
-            <Button x:Name="RemoveButton" Margin="0,280,0,0" Click="RemoveButton_Click">
-                <TextBlock><Run Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="21"/><Run Text=" Remove Old"/></TextBlock>
+            <Button x:Name="RemoveButton" Margin="0,200,0,0" CornerRadius="10,10,0,0" Height="50">
+                <TextBlock><Run Text="&#xE74D;" FontFamily="{StaticResource iconFont}" FontSize="21"/><Run Text=" Delete..."/></TextBlock>
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Delete past tasks" Icon="ClosePane" Click="DeletePastButton_Click"/>
+                        <MenuFlyoutItem Text="Delete all" Icon="Rotate" Click="DeleteAllButton_Click"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutSubItem Text="Advanced">
+                            <MenuFlyoutItem Text="Select date" Icon="Calendar" Click="SelectDate_Click" />
+                            <MenuFlyoutItem Text="Select subject" Icon="AllApps"  Click="SelectSubject_Click"/>
+                        </MenuFlyoutSubItem>
+                    </MenuFlyout>
+                </Button.Flyout>
             </Button>
-            <TextBlock Margin="0,367,0,471" FontSize="18" Text="Remove all that expired" Foreground="#ff555555"/>
+            <Button x:Name="UndoButton" Margin="0,250,0,0" Click="UndoButton_Click" CornerRadius="0,0,10,10" Height="50">
+                <TextBlock><Run Text="&#xE7A7;" FontFamily="{StaticResource iconFont}" FontSize="21"/><Run Text=" Undo Delete"/></TextBlock>
+            </Button>
         </Grid>
-        <ScrollViewer Margin="325,205,45,10">
-            <Grid x:Name="TaskGrid"/>
+        <ScrollViewer Margin="55,210,307,35" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="TaskGrid"/>
         </ScrollViewer>
     </Grid>
 </Page>
