@@ -26,13 +26,13 @@
                     Margin="10,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" />
             </StackPanel>
         </Border>
-        <Grid Margin="61,53,0,0" HorizontalAlignment="Left" Width="381" Height="118" VerticalAlignment="Top">
+        <Grid Margin="61,53,0,0" HorizontalAlignment="Left" Width="449" Height="118" VerticalAlignment="Top">
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="TextWrapping" Value="Wrap"/>
                     <Setter Property="VerticalAlignment" Value="Top"/>
                     <Setter Property="HorizontalAlignment" Value="Left"/>
-                    <Setter Property="FontFamily" Value="Assets/ZegoeLight-U.ttf#Segoe" />
+                    <Setter Property="FontFamily" Value="ms-appx:///Assets/ZegoeLight-U.ttf#Segoe" />
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>

@@ -46,7 +46,7 @@
                 </Style>
             </Grid.Resources>
             <TextBlock x:Name="mainText" Text="Add New Task" FontSize="55" Height="73" />
-            <TextBlock x:Name="mainText2" Text="GGHS Todo" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0" FontFamily="Assets/ZegoeLight-U.ttf#Segoe"/>
+            <TextBlock x:Name="mainText2" Text="GGHS Todo" FontSize="30" Width="544" Foreground="#FF444444" Margin="0,77,0,0" FontFamily="ms-appx:///Assets/ZegoeLight-U.ttf#Segoe"/>
         </Grid>
 
         <Grid Margin="55,204,330,0" Height="80" VerticalAlignment="Top">

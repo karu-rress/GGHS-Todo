@@ -237,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\segoefluent.ttf" />
+    <Content Include="Assets\ZegoeLight-U.ttf" />
     <None Include="GGHS Todo_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
