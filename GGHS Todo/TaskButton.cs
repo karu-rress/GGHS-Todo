@@ -57,12 +57,10 @@ namespace GGHS_Todo
             outter.Children.Add(inner);
             outter.Children.Add(arrow);
 
-            var uiSettings = new Windows.UI.ViewManagement.UISettings();
-            var rgba = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Accent);
             if (Task.DueDate.Date == DateTime.Now.Date)
             {
                 BorderThickness = new(2.6);
-                BorderBrush = new SolidColorBrush(rgba);
+                BorderBrush = new SolidColorBrush(RollingRess.UWP.UI.AppStyle.GetAccentColor());
             }
 
             Content = outter;
