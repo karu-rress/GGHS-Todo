@@ -10,21 +10,20 @@ using Windows.Storage.Streams;
 using RollingRess.UWP.FileIO;
 using static RollingRess.Serializer;
 
-namespace GGHS_Todo
+namespace GGHS_Todo;
+
+public static class SaveTask
 {
-    public static class SaveTask
+    private static ApplicationDataContainer localSettings => ApplicationData.Current.LocalSettings;
+
+    public static void Save()
     {
-        private static ApplicationDataContainer localSettings => ApplicationData.Current.LocalSettings;
+        localSettings.Values["Tasks"] = Serialize(MainPage.TaskList);
+    }
 
-        public static void Save()
-        {
-            localSettings.Values["Tasks"] = Serialize(MainPage.TaskList);
-        }
-
-        public static void Load()
-        {
-            if (Deserialize<TaskList?>(localSettings.Values["Tasks"]) is TaskList taskList)
-                MainPage.TaskList = taskList;
-        }
+    public static void Load()
+    {
+        if (Deserialize<TaskList?>(localSettings.Values["Tasks"]) is TaskList taskList)
+            MainPage.TaskList = taskList;
     }
 }

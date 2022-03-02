@@ -132,15 +132,6 @@ namespace GGHS_Todo
             await DeleteTasks(x => x.DueDate == date);
         }
 
-        private async void SelectSubject_Click(object _, RoutedEventArgs e)
-        {
-            SubjectSelectDialog dialog = new();
-            if (await dialog.ShowAsync() is ContentDialogResult.None)
-                return;
-
-            await DeleteTasks(x => x.Subject == dialog.SelectedSubject);
-        }
-
         private void TaskButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is TaskButton tb)

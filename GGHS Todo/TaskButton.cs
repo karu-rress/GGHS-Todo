@@ -160,19 +160,21 @@ namespace GGHS_Todo
             };
         }
 
+        const int bodyLength = 40;
+
         private void CreateTaskTextBlock(out TextBlock tb3, out TextBlock tb4)
         {
             tb3 = new()
             {
                 FontSize = 17,
-                Text = Task.Subject,
+                Text = Task.Title,
                 Margin = new(80, 12, 0, 44),
                 Width = ButtonWidth
             };
             tb4 = new()
             {
                 FontSize = 15,
-                Text = Task.Title,
+                Text = string.IsNullOrEmpty(Task.Body) ? "" : (Task.Body!.Length > bodyLength ? Task.Body[0..(bodyLength+1)] + "..." : Task.Body),
                 Margin = new(80, 43, 0, 13),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Width = ButtonWidth,

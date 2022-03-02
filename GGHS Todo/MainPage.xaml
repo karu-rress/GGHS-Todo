@@ -22,7 +22,7 @@
                     Source="Assets/Square44x44Logo.png" 
                     Width="26" Height="26"/>
                 <TextBlock x:Name="AppTitle"
-                    Text="GGHS Todo" VerticalAlignment="Center"
+                    Text="Rolling Todo" VerticalAlignment="Center"
                     Margin="10,0,0,0" Style="{StaticResource CaptionTextBlockStyle}" />
             </StackPanel>
         </Border>
@@ -41,8 +41,8 @@
             </Grid.ColumnDefinitions>
 
 
-            <TextBlock x:Name="mainText" Text="GGHS Todo" FontSize="55" Height="73" FontWeight="Bold" Width="300" Grid.ColumnSpan="2"/>
-            <TextBlock x:Name="mainText2" Text="Don't forget any of your tasks" FontSize="30" Width="372" Foreground="#FF444444" Margin="0,77,0,0" Grid.ColumnSpan="2"/>
+            <TextBlock x:Name="mainText" Text="Rolling Todo" FontSize="55" Height="73" FontWeight="Bold" Width="361" Grid.ColumnSpan="2"/>
+            <TextBlock x:Name="mainText2" Text="A simple, modern to do list app" FontSize="30" Width="442" Foreground="#FF444444" Margin="0,77,0,0" Grid.ColumnSpan="2"/>
         </Grid>
         <Grid Margin="0,210,55,35" HorizontalAlignment="Right" Width="215">
             <Grid.Resources>
@@ -69,10 +69,7 @@
                         <MenuFlyoutItem Text="Delete past tasks" Icon="ClosePane" Click="DeletePastButton_Click"/>
                         <MenuFlyoutItem Text="Delete all" Icon="Rotate" Click="DeleteAllButton_Click"/>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutSubItem Text="Advanced">
-                            <MenuFlyoutItem Text="Select date" Icon="Calendar" Click="SelectDate_Click" />
-                            <MenuFlyoutItem Text="Select subject" Icon="AllApps"  Click="SelectSubject_Click"/>
-                        </MenuFlyoutSubItem>
+                        <MenuFlyoutItem Text="Select date" Icon="Calendar" Click="SelectDate_Click" />
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
